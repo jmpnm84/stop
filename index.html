@@ -22,6 +22,8 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden; /* Evita scroll horizontal na página principal */
         }
         
         /* Floating Digital Control Buttons */
@@ -38,8 +40,8 @@
             background-color: #034263;
             color: white;
             border: none;
-            padding: 10px 18px;
-            font-size: 13px;
+            padding: 12px 18px; /* Ligeiramente maior para toque mobile */
+            font-size: 14px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
@@ -61,14 +63,14 @@
             background-color: transparent;
         }
 
-        /* Custom Dimensions: 14cm x 19.5cm */
+        /* Custom Dimensions: 14cm x 19.5cm base com adaptação mobile */
         .a5-container {
             width: 14cm;
-            max-width: 100%;
+            max-width: 100%; /* Garante que não ultrapassa o ecrã do telemóvel */
             height: 19.5cm;
             background-color: #ffffff;
             border: 8px solid #ffdc00;
-            padding: 12mm 6mm;
+            padding: 8mm 5mm; /* Reduzido ligeiramente para dar mais espaço no mobile */
             position: relative;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             display: flex;
@@ -85,10 +87,10 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            margin-bottom: 6mm;
+            margin-bottom: 4mm;
         }
         .logo-image {
-            height: 45px;
+            height: 40px;
             max-width: 100%;
             object-fit: contain;
         }
@@ -96,23 +98,23 @@
         /* STOP Box */
         .stop-box {
             border: 2px dashed #333333;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            margin: 0 auto 6mm auto;
+            margin: 0 auto 5mm auto;
             width: 100%;
             max-width: 9cm;
-            height: 6cm;
+            height: 5.5cm; /* Ajustado para prevenir overflows verticais */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
         .stop-sign {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             background-color: #7f7f7f;
             position: relative;
-            margin: 0 auto 8px auto;
+            margin: 0 auto 6px auto;
             clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
             display: flex;
             justify-content: center;
@@ -123,13 +125,13 @@
         }
         .stop-text {
             color: #ffffff;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             letter-spacing: 1px;
         }
         .nao-usar {
             color: #d61c1c;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             letter-spacing: 1px;
             margin: 3px 0 0 0;
@@ -139,11 +141,11 @@
         .form-group {
             display: flex;
             align-items: flex-end;
-            margin-bottom: 7mm;
+            margin-bottom: 5mm;
             width: 100%;
         }
         .form-label {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: normal;
             color: #000000;
             white-space: nowrap;
@@ -154,7 +156,7 @@
             flex-grow: 1;
             border: none;
             border-bottom: 1px solid #000000;
-            font-size: 14px;
+            font-size: 13px;
             padding: 2px 5px;
             background: transparent;
             outline: none;
@@ -177,7 +179,7 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin-bottom: 7mm;
+            margin-bottom: 5mm;
             gap: 10px;
         }
         .form-row .form-group {
@@ -195,20 +197,20 @@
         .form-block {
             display: flex;
             flex-direction: column;
-            margin-bottom: 6mm;
+            margin-bottom: 4mm;
         }
         .form-block.expandable {
             margin-bottom: 0;
         }
         .form-block .form-label {
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .form-textarea {
             width: 100%;
             border: none;
             border-bottom: 1px solid #000000;
-            font-size: 14px;
-            line-height: 1.6;
+            font-size: 13px;
+            line-height: 1.5;
             resize: none;
             outline: none;
             background: transparent;
@@ -216,7 +218,7 @@
             text-align: center;
         }
         
-        /* Print Styles */
+        /* Print Styles - Mantém as proporções originais exatas para impressão */
         @media print {
             @page {
                 size: A4 landscape;
@@ -226,6 +228,7 @@
                 background-color: #ffffff;
                 padding: 0;
                 display: block;
+                overflow-x: visible;
             }
             .print-page {
                 display: flex !important;
@@ -235,8 +238,10 @@
             .a5-container {
                 box-shadow: none;
                 width: 14cm !important;
+                height: 19.5cm !important;
                 max-width: 14cm !important;
                 border: 8px solid #ffdc00 !important;
+                padding: 12mm 6mm; /* Restaura padding original na impressão */
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -246,6 +251,11 @@
             .actions {
                 display: none;
             }
+            .header { margin-bottom: 6mm; }
+            .stop-box { height: 6cm; margin-bottom: 6mm; }
+            .form-group { margin-bottom: 7mm; }
+            .form-row { margin-bottom: 7mm; }
+            .form-block { margin-bottom: 6mm; }
         }
     </style>
 </head>
@@ -290,11 +300,11 @@
             </div>
             <div class="form-block">
                 <label class="form-label">Motivo:</label>
-                <textarea id="motivo_1" class="form-textarea" style="min-height: 45px;"></textarea>
+                <textarea id="motivo_1" class="form-textarea" style="min-height: 40px;"></textarea>
             </div>
             <div class="form-block expandable">
                 <label class="form-label">Observações:</label>
-                <textarea id="observacoes_1" class="form-textarea" style="min-height: 45px; height: 45px;"></textarea>
+                <textarea id="observacoes_1" class="form-textarea" style="min-height: 40px; height: 40px;"></textarea>
             </div>
         </div>
 
@@ -330,18 +340,17 @@
             </div>
             <div class="form-block">
                 <label class="form-label">Motivo:</label>
-                <textarea id="motivo_2" class="form-textarea" style="min-height: 45px;"></textarea>
+                <textarea id="motivo_2" class="form-textarea" style="min-height: 40px;"></textarea>
             </div>
             <div class="form-block expandable">
                 <label class="form-label">Observações:</label>
-                <textarea id="observacoes_2" class="form-textarea" style="min-height: 45px; height: 45px;"></textarea>
+                <textarea id="observacoes_2" class="form-textarea" style="min-height: 40px; height: 40px;"></textarea>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Service Worker Inline adaptado para cumprir as diretivas estritas de instalação offline
         if ('serviceWorker' in navigator) {
             const swCode = `
                 const CACHE_NAME = 'trigo-stop-cache-v1';
