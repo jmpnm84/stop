@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRIGO - STOP NÃO USAR (DUPLO A4)</title>
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlRSSUdPIFNUT1AgTmFvIFVzYXIiLAogICJzaG9ydF9uYW1lIjogIlNUT1AiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiNmZmRjMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2dpdGh1Yi5jb20vdXNlci1hdHRhY2htZW50cy9hc3NldHMvNzg3OTAwNzEtOTNmMi00ZGU3LThkYjQtZGNiOGNjMzhiNDViIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vZ2l0aHViLmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlRSSUdPIFNUT1AgTmFvIFVzYXIiLAogICJzaG9ydF9uYW1lIjogIlNUT1AiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiNmZmRjMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2dpdGh1Yi5jb20vdXNlci1hdHRhY2htZW50cy9hc3NldHMvNzg3OTAwNzEtOTNmMi00ZGU3LThkYjQtZGNiOGNjMzhiNDViIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vZ2l0aHViLmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIHsKICBdCn0=">
     
     <meta name="theme-color" content="#ffdc00">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,7 +16,7 @@
         }
         body {
             margin: 0;
-            padding: 10px;
+            padding: 15px 10px;
             background-color: #f0f0f0;
             display: flex;
             flex-direction: column;
@@ -26,46 +26,56 @@
         
         /* Floating Digital Control Buttons */
         .actions {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 14cm;
         }
         .btn {
             background-color: #034263;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 18px;
             font-size: 13px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
         }
         .btn-clear {
             background-color: #d61c1c;
         }
 
-        /* Container que junta os dois blocos lado a lado */
+        /* Container principal centrado no ecrã */
         .print-page {
             display: flex;
             gap: 10mm;
             justify-content: center;
+            align-items: center;
+            width: 100%;
             background-color: transparent;
         }
 
         /* Custom Dimensions: 14cm x 19.5cm */
         .a5-container {
             width: 14cm;
+            max-width: 100%; /* Garante que não transborda em ecrãs pequenos */
             height: 19.5cm;
             background-color: #ffffff;
             border: 8px solid #ffdc00;
-            padding: 12mm 8mm;
+            padding: 12mm 6mm;
             position: relative;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
         }
         
-        /* Ocultar a segunda cópia no ecrã (Tablet) */
+        /* Ocultar a segunda cópia no ecrã (Tablet e Smartphone) */
         .clone-block {
             display: none;
         }
@@ -89,7 +99,8 @@
             padding: 12px;
             text-align: center;
             margin: 0 auto 6mm auto;
-            width: 9cm;
+            width: 100%;
+            max-width: 9cm;
             height: 6cm;
             display: flex;
             flex-direction: column;
@@ -149,15 +160,16 @@
             outline: none;
             color: #333333;
             text-align: center;
+            min-width: 0; /* Previne quebras de layout no mobile */
         }
         .form-input:focus {
             background-color: #fffde7;
         }
         
         #data_1, #data_2 {
-            text-align: left;
-            max-width: 90px; 
-            flex-grow: 0;
+            text-align: center;
+            max-width: 95px; 
+            flex-grow: 1;
         }
         
         /* Quantity and Date Alignment */
@@ -166,15 +178,16 @@
             justify-content: space-between;
             width: 100%;
             margin-bottom: 7mm;
+            gap: 10px;
         }
         .form-row .form-group {
             margin-bottom: 0;
         }
         .form-row .form-group:first-child {
-            width: 52%;
+            width: 55%;
         }
         .form-row .form-group:last-child {
-            width: 38%;
+            width: 45%;
             justify-content: flex-start;
         }
 
@@ -215,10 +228,14 @@
                 display: block;
             }
             .print-page {
+                display: flex !important;
                 gap: 8mm;
+                align-items: flex-start;
             }
             .a5-container {
                 box-shadow: none;
+                width: 14cm !important;
+                max-width: 14cm !important;
                 border: 8px solid #ffdc00 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
@@ -325,7 +342,6 @@
     </div>
 
     <script>
-        // Registo do Service Worker Inline para PWA
         if ('serviceWorker' in navigator) {
             const swCode = `
                 self.addEventListener('install', (e) => self.skipWaiting());
