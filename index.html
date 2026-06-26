@@ -9,6 +9,7 @@
     
     <meta name="theme-color" content="#ffdc00">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <style>
         * {
             box-sizing: border-box;
@@ -23,7 +24,7 @@
             align-items: center;
             min-height: 100vh;
             width: 100%;
-            overflow-x: hidden; /* Evita scroll horizontal na página principal */
+            overflow-x: hidden;
         }
         
         /* Floating Digital Control Buttons */
@@ -40,7 +41,7 @@
             background-color: #034263;
             color: white;
             border: none;
-            padding: 12px 18px; /* Ligeiramente maior para toque mobile */
+            padding: 12px 18px;
             font-size: 14px;
             border-radius: 4px;
             cursor: pointer;
@@ -63,14 +64,14 @@
             background-color: transparent;
         }
 
-        /* Custom Dimensions: 14cm x 19.5cm base com adaptação mobile */
+        /* Custom Dimensions com adaptação mobile */
         .a5-container {
             width: 14cm;
-            max-width: 100%; /* Garante que não ultrapassa o ecrã do telemóvel */
+            max-width: 100%;
             height: 19.5cm;
             background-color: #ffffff;
             border: 8px solid #ffdc00;
-            padding: 8mm 5mm; /* Reduzido ligeiramente para dar mais espaço no mobile */
+            padding: 8mm 5mm;
             position: relative;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             display: flex;
@@ -103,7 +104,7 @@
             margin: 0 auto 5mm auto;
             width: 100%;
             max-width: 9cm;
-            height: 5.5cm; /* Ajustado para prevenir overflows verticais */
+            height: 5.5cm;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -218,7 +219,7 @@
             text-align: center;
         }
         
-        /* Print Styles - Mantém as proporções originais exatas para impressão */
+        /* Print Styles */
         @media print {
             @page {
                 size: A4 landscape;
@@ -241,7 +242,7 @@
                 height: 19.5cm !important;
                 max-width: 14cm !important;
                 border: 8px solid #ffdc00 !important;
-                padding: 12mm 6mm; /* Restaura padding original na impressão */
+                padding: 12mm 6mm;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -351,28 +352,27 @@
     </div>
 
     <script>
-        if ('serviceWorker' in navigator) {
+        // Registo PWA via Data URI para contornar restrições de ficheiro único
+        if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
             const swCode = `
                 const CACHE_NAME = 'trigo-stop-cache-v1';
                 self.addEventListener('install', (e) => {
-                    e.waitUntil(
-                        caches.open(CACHE_NAME).then((cache) => {
-                            return cache.addAll(['./', './index.html']).catch(() => {});
-                        }).then(() => self.skipWaiting())
-                    );
+                    self.skipWaiting();
                 });
                 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
                 self.addEventListener('fetch', (e) => {
                     e.respondWith(
-                        fetch(e.request).catch(() => caches.match(e.request).then(res => res || new Response("Offline")))
+                        fetch(e.request).catch(() => new Response("Offline"))
                     );
                 });
             `;
-            const blob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(swUrl)
-                .then(() => console.log('PWA Single-File Ativo com Sucesso!'))
-                .catch(err => console.log('Erro PWA:', err));
+            
+            // Injeção via base64 data URI (Mais aceite pelo Chrome para Single File)
+            const swUrl = 'data:application/javascript;base64,' + btoa(swCode);
+            
+            navigator.serviceWorker.register(swUrl, { scope: '/' })
+                .then(() => console.log('PWA Single-File configurado com sucesso.'))
+                .catch(err => console.log('Aviso PWA:', err));
         }
 
         const baseFields = ['ref', 'pecas', 'quantidade', 'data', 'responsavel', 'motivo', 'observacoes'];
