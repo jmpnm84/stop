@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRIGO - STOP NÃO USAR (DUPLO A4)</title>
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlRSSUdPIFNUT1AgTmFvIFVzYXIiLAogICJzaG9ydF9uYW1lIjogIlNUT1AiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiNmZmRjMDAiLAogICpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJpM05vYVc1bExtZDFiV1Z5WVd4ekx6RXdNQzV6ZG1jK1BDOW5jZz09IiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlRSSUdPIFNUT1AgTmFvIFVzYXIiLAogICJzaG9ydF9uYW1lIjogIlNUT1AiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiNmZmRjMDAiLAog *Y29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJpM05vYVc1bExtZDFiV1Z5WVd4ekx6RXdNQzV6ZG1jK1BDOW5jZz09IiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==">
     <meta name="theme-color" content="#ffdc00">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
@@ -101,7 +101,7 @@
             align-items: center;
             border: 3px solid #ffffff;
             outline: 2px solid #7f7f7f;
-            flex-shrink: 0; /* Garante que o sinal não deforma */
+            flex-shrink: 0;
         }
         .stop-text {
             color: #ffffff;
@@ -141,9 +141,17 @@
             background: transparent;
             outline: none;
             color: #333333;
+            text-align: center;
         }
         .form-input:focus {
             background-color: #fffde7;
+        }
+        
+        /* AJUSTE AQUI: Redução do campo visual da data e alinhamento à esquerda */
+        #data_1, #data_2 {
+            text-align: left;
+            max-width: 90px; 
+            flex-grow: 0; /* Impede que o campo estique desnecessariamente */
         }
         
         /* Quantity and Date Alignment */
@@ -157,10 +165,11 @@
             margin-bottom: 0;
         }
         .form-row .form-group:first-child {
-            width: 55%;
+            width: 52%;
         }
         .form-row .form-group:last-child {
-            width: 40%;
+            width: 38%;
+            justify-content: flex-start; /* Garante que o conjunto Label + Input fique arrumado */
         }
 
         /* Textareas */
@@ -170,7 +179,7 @@
             margin-bottom: 6mm;
         }
         .form-block.expandable {
-            margin-bottom: 0; /* Removido flex-grow para manter a proporção com a nova altura do STOP */
+            margin-bottom: 0;
         }
         .form-block .form-label {
             margin-bottom: 6px;
@@ -185,6 +194,7 @@
             outline: none;
             background: transparent;
             padding: 2px 5px;
+            text-align: center;
         }
         
         /* Print Styles */
@@ -245,7 +255,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Data:</label>
-                    <input type="date" id="data_1" class="form-input">
+                    <input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
                 </div>
             </div>
             <div class="form-group">
@@ -285,7 +295,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Data:</label>
-                    <input type="date" id="data_2" class="form-input">
+                    <input type="text" id="data_2" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
                 </div>
             </div>
             <div class="form-group">
@@ -307,6 +317,18 @@
     <script>
         const baseFields = ['ref', 'pecas', 'quantidade', 'data', 'responsavel', 'motivo', 'observacoes'];
         
+        function formatarData(input) {
+            let v = input.value.replace(/\D/g, ''); 
+            if (v.length > 8) v = v.substring(0, 8);
+            
+            if (v.length > 4) {
+                v = v.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
+            } else if (v.length > 2) {
+                v = v.replace(/^(\d{2})(\d{1,2})$/, '$1/$2');
+            }
+            return v;
+        }
+
         window.addEventListener('load', () => {
             baseFields.forEach(fieldId => {
                 const savedValue = localStorage.getItem(fieldId);
@@ -316,7 +338,13 @@
                     if (savedValue) el.value = savedValue;
                     
                     el.addEventListener('input', (e) => {
-                        const val = e.target.value;
+                        let val = e.target.value;
+                        
+                        if (fieldId === 'data') {
+                            val = formatarData(e.target);
+                            e.target.value = val;
+                        }
+
                         localStorage.setItem(fieldId, val);
                         
                         const otherNum = num === 1 ? 2 : 1;
@@ -327,10 +355,15 @@
             
             const date1 = document.getElementById('data_1');
             if (!date1.value) {
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('data_1').value = today;
-                document.getElementById('data_2').value = today;
-                localStorage.setItem('data', today);
+                const hoje = new Date();
+                const dd = String(hoje.getDate()).padStart(2, '0');
+                const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+                const aaaa = hoje.getFullYear();
+                const dataFormatada = `${dd}/${mm}/${aaaa}`;
+                
+                document.getElementById('data_1').value = dataFormatada;
+                document.getElementById('data_2').value = dataFormatada;
+                localStorage.setItem('data', dataFormatada);
             }
         });
 
@@ -341,10 +374,15 @@
                     document.getElementById(`${fieldId}_1`).value = '';
                     document.getElementById(`${fieldId}_2`).value = '';
                 });
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('data_1').value = today;
-                document.getElementById('data_2').value = today;
-                localStorage.setItem('data', today);
+                const hoje = new Date();
+                const dd = String(hoje.getDate()).padStart(2, '0');
+                const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+                const aaaa = hoje.getFullYear();
+                const dataFormatada = `${dd}/${mm}/${aaaa}`;
+                
+                document.getElementById('data_1').value = dataFormatada;
+                document.getElementById('data_2').value = dataFormatada;
+                localStorage.setItem('data', dataFormatada);
             }
         }
     </script>
