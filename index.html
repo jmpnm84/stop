@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.2.6</title>
+    <title>Trigo - STOP v3.2.7</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -46,8 +46,8 @@
         .form-group-inline .form-input { flex-grow: 1; border: none; border-bottom: 1px solid #000000; font-size: 14px; padding: 2px 5px; background: transparent; outline: none; color: #333333; text-align: center; }
         
         .form-row { display: flex; justify-content: space-between; width: 100%; margin-bottom: 4.5mm; gap: 15px; }
-        .form-row .form-group-inline:first-child { width: 55%; }
-        .form-row .form-group-inline:last-child { width: 45%; }
+        .form-row .form-group-inline:first-child { width: 40%; }
+        .form-row .form-group-inline:last-child { width: 60%; }
 
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 4.5mm; width: 100%; }
         .form-group-block .form-label { font-size: 14px; color: #000000; margin-bottom: 6px; }
@@ -63,6 +63,9 @@
             .print-page { display: flex !important; justify-content: center !important; width: 297mm !important; height: 210mm !important; flex-direction: row !important; }
             .a5-container { box-shadow: none !important; width: 135mm !important; height: 190mm !important; border: 7px solid #ffdc00 !important; }
             .clone-block { display: flex !important; }
+            
+            /* Ocultar o placeholder ao imprimir */
+            input::placeholder { color: transparent !important; }
         }
     </style>
 </head>
@@ -113,12 +116,8 @@
         function formatarData(value) {
             let v = value.replace(/\D/g, ''); 
             if (v.length > 8) v = v.substring(0, 8);
-            
-            if (v.length >= 5) {
-                return v.replace(/(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
-            } else if (v.length > 2) {
-                return v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
-            }
+            if (v.length >= 5) return v.replace(/(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
+            else if (v.length > 2) return v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
             return v;
         }
 
@@ -134,15 +133,12 @@
                 [1, 2].forEach(num => {
                     const el = document.getElementById(`${fieldId}_${num}`);
                     if (savedValue) el.value = savedValue;
-                    
                     el.addEventListener('input', (e) => {
                         let val = e.target.value;
-                        
                         if (fieldId === 'data') {
                             val = formatarData(val);
                             e.target.value = val;
                         }
-
                         localStorage.setItem(fieldId, val);
                         document.getElementById(`${fieldId}_${num === 1 ? 2 : 1}`).value = val;
                         if (fieldId === 'motivo') ajustarTamanhoFonteMotivo(val);
