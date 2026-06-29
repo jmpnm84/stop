@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trigo - STOP v2.1.1</title>
+    <title>Trigo - STOP v2.1.0</title>
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJpZCI6Ii8iLAogICJuYW1lIjogIlRSSUdPIFNUT1AgTmFvIFVzYXIiLAogICJzaG9ydF9uYW1lIjogIlNUT1AiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiNmZmRjMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vdXNlci1hdHRhY2htZW50cy9hc3NldHMvNzg3OTAwNzEtOTNmMi00ZGU3LThkYjQtZGNiOGNjMzhiNDViIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkiCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIKICAgIH0KICBdCn0=">
-    
-    <meta name="theme-color" content="#ffdc00">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#ffdc00">
+
     <style>
         * {
             box-sizing: border-box;
@@ -204,7 +204,6 @@
             font-weight: bold;
         }
         
-        /* AJUSTE FIXO E MILIMÉTRICO PARA IMPRESSÃO PERFEITA */
         @media print {
             @page {
                 size: A4 landscape;
@@ -249,9 +248,7 @@
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
-            .clone-block {
-                display: flex !important;
-            }
+            .clone-block { display: flex !important; }
             .header { margin-bottom: 2mm; }
             .stop-box { height: 4.2cm; margin-bottom: 2mm; }
             .form-group { margin-bottom: 2.5mm; }
@@ -271,7 +268,6 @@
     <datalist id="listaReferencias"></datalist>
 
     <div class="print-page">
-        
         <div class="a5-container">
             <div class="header">
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
@@ -355,10 +351,66 @@
                 <textarea id="observacoes_2" class="form-textarea" style="min-height: 40px; height: 40px;"></textarea>
             </div>
         </div>
-
     </div>
 
     <script>
+        // --- GERADOR DINÂMICO DE MANIFESTO (Resolve erro de start_url e data:) ---
+        const manifestData = {
+            "id": window.location.pathname,
+            "name": "TRIGO STOP Nao Usar",
+            "short_name": "STOP",
+            "start_url": window.location.href,
+            "display": "standalone",
+            "background_color": "#ffffff",
+            "theme_color": "#ffdc00",
+            "icons": [
+                {
+                    "src": "https://raw.githubusercontent.com/user-attachments/assets/78790071-93f2-4de7-8db4-dcb8cc28b45b",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any"
+                },
+                {
+                    "src": "https://raw.githubusercontent.com/user-attachments/assets/78790071-93f2-4de7-8db4-dcb8cc28b45b",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any"
+                }
+            ]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = manifestURL;
+        document.head.appendChild(manifestLink);
+
+        // --- INJEÇÃO DO SERVICE WORKER EM BLOB (Resolve erro do protocolo data:) ---
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                const CACHE_NAME = 'trigo-stop-cache-v4';
+                self.addEventListener('install', (e) => self.skipWaiting());
+                self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+                self.addEventListener('fetch', (e) => {
+                    e.respondWith(
+                        fetch(e.request).catch(() => {
+                            return new Response(
+                                '<h2 style="font-family:sans-serif;text-align:center;margin-top:50px;">Modo Offline Ativo</h2>',
+                                { headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+                            );
+                        })
+                    );
+                });
+            `;
+            const swBlob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(swBlob);
+            
+            navigator.serviceWorker.register(swUrl, { scope: './' })
+                .then(() => console.log('PWA Single-File Ativada via Blob URL.'))
+                .catch(err => console.log('Erro PWA:', err));
+        }
+
+        // --- LÓGICA DA APLICAÇÃO ---
         let mapaProdutos = [];
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
         const baseFields = ['ref', 'pecas', 'quantidade', 'data', 'responsavel', 'motivo', 'observacoes'];
@@ -398,32 +450,6 @@
                 const request = store.getAll();
                 request.onsuccess = () => resolve(request.result);
             });
-        }
-
-        // Registo de Service Worker melhorado para passar nos critérios de instalabilidade da PWA
-        if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
-            const swCode = `
-                const CACHE_NAME = 'trigo-stop-cache-v2';
-                self.addEventListener('install', (e) => { 
-                    self.skipWaiting(); 
-                });
-                self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-                self.addEventListener('fetch', (e) => {
-                    // Ignora pedidos externos (como o Script do Google Drive e imagens do GitHub se falharem) para manter a app a funcionar offline
-                    e.respondWith(
-                        fetch(e.request).catch(() => {
-                            return new Response(
-                                '<h2 style="font-family:sans-serif; text-align:center; margin-top:50px;">Modo Offline Ativo</h2>', 
-                                { headers: { 'Content-Type': 'text/html; charset=utf-8' } }
-                            );
-                        })
-                    );
-                });
-            `;
-            const swUrl = 'data:application/javascript;base64,' + btoa(unescape(encodeURIComponent(swCode)));
-            navigator.serviceWorker.register(swUrl, { scope: '/' })
-                .then(() => console.log('PWA Single-File configurado com sucesso.'))
-                .catch(err => console.log('Aviso PWA:', err));
         }
 
         function formatarData(input) {
