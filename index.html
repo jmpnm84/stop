@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.4.6</title>
+    <title>Trigo - STOP v3.5.0</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -115,7 +115,12 @@
         let db;
 
         const request = indexedDB.open(DB_NAME, 1);
-        request.onupgradeneeded = e => e.target.result.createObjectStore("referencias", { keyPath: "ref" });
+        request.onupgradeneeded = e => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains("referencias")) {
+                db.createObjectStore("referencias", { keyPath: "ref" });
+            }
+        };
         request.onsuccess = e => db = e.target.result;
 
         async function importarDoDrive() {
@@ -128,12 +133,8 @@
                 const store = tx.objectStore("referencias");
                 store.clear();
                 
-                // Mapeamento correto: ajustado para "referencia" e "nome_da_peca"
                 data.forEach(item => {
-                    store.put({ 
-                        ref: String(item.referencia || ""), 
-                        peca: String(item.nome_da_peca || "") 
-                    });
+                    store.put({ ref: String(item.ref || ""), peca: String(item.peca || "") });
                 });
                 alert("Dados sincronizados com sucesso!");
             } catch (e) { alert("Erro na sincronização: " + e.message); }
@@ -144,14 +145,16 @@
         const listSugestoes = document.getElementById('suggestions_list_1');
 
         inputRef.addEventListener('input', function() {
-            const query = this.value.toLowerCase();
+            const query = this.value.trim();
             listSugestoes.innerHTML = "";
-            if (!query || !db) { listSugestoes.style.display = "none"; return; }
+            if (query.length < 3 || !db) { listSugestoes.style.display = "none"; return; }
             
             db.transaction("referencias").objectStore("referencias").openCursor().onsuccess = e => {
                 const cursor = e.target.result;
                 if (cursor) {
-                    if (cursor.value.ref.toLowerCase().includes(query)) {
+                    // Filtra pelos 3 últimos dígitos
+                    const refString = String(cursor.value.ref);
+                    if (refString.length >= 3 && refString.slice(-3) === query.slice(-3)) {
                         const li = document.createElement('li');
                         li.textContent = `${cursor.value.ref} - ${cursor.value.peca}`;
                         li.onclick = () => {
@@ -170,7 +173,8 @@
         ['pecas_1', 'quantidade_1', 'data_1', 'responsavel_1', 'motivo_1', 'observacoes_1'].forEach(id => {
             document.getElementById(id).addEventListener('input', (e) => {
                 const targetId = id.replace('_1', '_2');
-                document.getElementById(targetId).value = e.target.value;
+                const targetEl = document.getElementById(targetId);
+                if(targetEl) targetEl.value = e.target.value;
             });
         });
 
