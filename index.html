@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.3.3</title>
+    <title>Trigo - STOP v3.4.0</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,9 +20,14 @@
         .btn-sync { background-color: #2196F3; }
         .btn:disabled { background-color: #cccccc; cursor: not-allowed; }
 
+        /* Container principal flexível */
         .print-page { display: flex; gap: 10mm; justify-content: center; align-items: center; width: 100%; }
+        
         .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
         
+        /* Esconder o Bloco 2 no ecrã para não poluir o layout */
+        #bloco2 { display: none; }
+
         .header { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 6mm; }
         .logo-image { height: 42px; max-width: 100%; object-fit: contain; }
 
@@ -50,9 +55,18 @@
 
         .observacoes-wrapper { margin-top: auto; margin-bottom: 5mm; }
 
+        /* --- CONFIGURAÇÕES DE IMPRESSÃO --- */
         @media print {
+            @page { size: landscape; margin: 0; }
+            html, body { background-color: #ffffff; width: 100%; height: 100%; min-height: 100%; padding: 0; margin: 0; display: flex; justify-content: center; align-items: center; }
             .actions { display: none !important; }
-            .a5-container { border: 7px solid #ffdc00 !important; }
+            
+            .print-page { display: flex !important; flex-direction: row !important; gap: 10mm !important; justify-content: center !important; align-items: center !important; width: 100vw; height: 100vh; padding: 0 10mm; }
+            
+            .a5-container { border: 7px solid #ffdc00 !important; float: none !important; box-shadow: none !important; page-break-inside: avoid; }
+            
+            /* Forçar a exibição de ambos os blocos lado a lado na folha */
+            #bloco1, #bloco2 { display: flex !important; width: 14cm !important; height: 19.5cm !important; }
         }
     </style>
 </head>
@@ -72,7 +86,7 @@
                 <label class="form-label">Ref.:</label>
                 <div class="autocomplete-container">
                     <input type="text" id="ref_1" class="form-input" autocomplete="off">
-                    <ul id="suggestions_list" class="autocomplete-suggestions" style="display: none;"></ul>
+                    <ul id="suggestions_list_1" class="autocomplete-suggestions" style="display: none;"></ul>
                 </div>
             </div>
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_1" class="form-input"></div>
@@ -85,6 +99,29 @@
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input" value="SQF"></div>
             <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
             <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
+        </div>
+
+        <div class="a5-container" id="bloco2">
+            <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image"></div>
+            <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
+            
+            <div class="field-row">
+                <label class="form-label">Ref.:</label>
+                <div class="autocomplete-container">
+                    <input type="text" id="ref_2" class="form-input" autocomplete="off">
+                    <ul id="suggestions_list_2" class="autocomplete-suggestions" style="display: none;"></ul>
+                </div>
+            </div>
+            <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_2" class="form-input"></div>
+            
+            <div class="form-row">
+                <div class="field-row" style="width: auto; margin-right: 20px;"><label class="form-label">Qtd:</label><input type="text" id="quantidade_2" class="form-input" style="width: 100px;"></div>
+                <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_2" class="form-input" style="width: 180px;"></div>
+            </div>
+            
+            <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_2" class="form-input" value="SQF"></div>
+            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_2" class="form-textarea" style="min-height: 45px;"></textarea></div>
+            <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea" style="min-height: 45px;"></textarea></div>
         </div>
     </div>
 
@@ -106,6 +143,29 @@
             }
         };
 
+        // --- COMPORTAMENTO DE ESPELHAMENTO REAL-TIME ---
+        // Tudo o que for digitado no bloco 1 replica instantaneamente para o bloco 2 oculto
+        const mapeamentoCampos = [
+            { origem: 'ref_1', destino: 'ref_2' },
+            { origem: 'pecas_1', destino: 'pecas_2' },
+            { origem: 'quantidade_1', destino: 'quantidade_2' },
+            { origem: 'data_1', destino: 'data_2' },
+            { origem: 'responsavel_1', destino: 'responsavel_2' },
+            { origem: 'motivo_1', destino: 'motivo_2' },
+            { origem: 'observacoes_1', destino: 'observacoes_2' }
+        ];
+
+        mapeamentoCampos.forEach(par => {
+            const elOrigem = document.getElementById(par.origem);
+            const elDestino = document.getElementById(par.destino);
+            elOrigem.addEventListener('input', () => {
+                elDestino.value = elOrigem.value;
+                if(par.origem === 'motivo_1' || par.origem === 'observacoes_1') {
+                    elDestino.style.fontSize = elOrigem.style.fontSize;
+                }
+            });
+        });
+
         // --- FUNÇÃO PARA SINCRONIZAR COM O GOOGLE DRIVE ---
         async function importarDoDrive() {
             const btn = document.getElementById('btnSync');
@@ -122,7 +182,6 @@
                 store.clear();
 
                 dados.forEach(item => {
-                    // Normaliza as chaves do objeto para evitar problemas com acentos ou maiúsculas
                     let referencia = "";
                     let peca = "";
 
@@ -132,7 +191,6 @@
                         if (chaveLimpa === "ref" || chaveLimpa === "referencia") {
                             referencia = item[chave];
                         }
-                        // Procura por qualquer variação de "peca", "pecas", "nome de peca" ou "nome da peca"
                         if (chaveLimpa.includes("peca") || chaveLimpa.includes("nome")) {
                             peca = item[chave];
                         }
@@ -153,16 +211,16 @@
                 };
             } catch (erro) {
                 console.error("Erro na sincronização:", erro);
-                alert("Erro ao sincronizar dados. Verifique o console ou a ligação.");
+                alert("Erro ao sincronizar dados.");
                 btn.disabled = false;
                 btn.innerText = "Sincronizar";
             }
         }
 
-        // --- SISTEMA DE AUTOCOMPLETE ---
+        // --- SISTEMA DE AUTOCOMPLETE (BLOCO 1) ---
         const inputRef = document.getElementById('ref_1');
         const inputPecas = document.getElementById('pecas_1');
-        const listSugestoes = document.getElementById('suggestions_list');
+        const listSugestoes = document.getElementById('suggestions_list_1');
 
         inputRef.addEventListener('input', function() {
             const query = this.value.trim().toLowerCase();
@@ -187,7 +245,12 @@
                         li.textContent = item.peca ? `${item.ref} - ${item.peca}` : item.ref;
                         li.addEventListener('click', function() {
                             inputRef.value = item.ref;
-                            inputPecas.value = item.peca; // Preenche o campo Peças aqui
+                            inputPecas.value = item.peca;
+                            
+                            // Força a atualização imediata do Bloco 2 quando clicado
+                            document.getElementById('ref_2').value = item.ref;
+                            document.getElementById('pecas_2').value = item.peca;
+
                             listSugestoes.style.display = "none";
                         });
                         listSugestoes.appendChild(li);
@@ -212,7 +275,7 @@
             }
         });
 
-        // --- OUTROS COMPORTAMENTOS ---
+        // --- FORMATAR DATAS E FONTES ---
         function formatarData(value) {
             let v = value.replace(/\D/g, ''); 
             if (v.length > 8) v = v.substring(0, 8);
@@ -220,25 +283,38 @@
             else if (v.length > 2) return v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
             return v;
         }
-        document.getElementById('data_1').addEventListener('input', (e) => { e.target.value = formatarData(e.target.value); });
         
-        const motivo = document.getElementById('motivo_1');
-        motivo.addEventListener('input', function() {
-            let fontSize = 24;
-            this.style.fontSize = fontSize + 'px';
-            while (this.scrollHeight > this.offsetHeight && fontSize > 10) {
-                fontSize--;
+        document.getElementById('data_1').addEventListener('input', (e) => { 
+            let dFmt = formatarData(e.target.value);
+            e.target.value = dFmt;
+            document.getElementById('data_2').value = dFmt;
+        });
+        
+        // Ajuste inteligente de caixas de texto nos dois blocos simultaneamente
+        ['motivo_1', 'observacoes_1'].forEach(idOrigem => {
+            const suf = idOrigem.split('_')[1];
+            const base = idOrigem.split('_')[0];
+            const elOrigem = document.getElementById(idOrigem);
+            const elDestino = document.getElementById(`${base}_2`);
+
+            elOrigem.addEventListener('input', function() {
+                let fontSize = 24;
                 this.style.fontSize = fontSize + 'px';
-            }
+                while (this.scrollHeight > this.offsetHeight && fontSize > 10) {
+                    fontSize--;
+                    this.style.fontSize = fontSize + 'px';
+                }
+                elDestino.style.fontSize = this.style.fontSize;
+            });
         });
 
         function clearForm() {
             document.querySelectorAll('input, textarea').forEach(el => {
-                if (el.id === 'responsavel_1') {
+                if (el.id.startsWith('responsavel_')) {
                     el.value = 'SQF';
                 } else {
                     el.value = '';
-                    if(el.id === 'motivo_1') el.style.fontSize = '24px';
+                    if(el.id.startsWith('motivo_')) el.style.fontSize = '24px';
                 }
             });
             listSugestoes.innerHTML = "";
