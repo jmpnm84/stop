@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRIGO - STOP NÃO USAR (DUPLO A4)</title>
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJidXR0b24iOiAiaGlkZGVuIiwKICAiaWQiOiAiLyIsCiAgIm5hbWUiOiAiVFJJR08gU1RPUCBOYW8gVXNhciIsCiAgInNob3J0X25hbWUiOiAiU1RPUCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiaZlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2ZmZGMwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9CiAgXQp9">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJidXR0b24iOiAiaGlkZGVuIiwKICAiaWQiOiAiLyIsCiAgIm5hbWUiOiAiVFJJR08gU1RPUCBOYW8gVXNhciIsCiAgInNob3J0X25hbWUiOiAiU1RPUCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiaZlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiaYFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2ZmZGMwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9CiAgXQp9">
     
     <meta name="theme-color" content="#ffdc00">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -230,15 +230,15 @@
             font-weight: bold;
         }
         
-        /* Print Styles Completamente Otimizados para Forçar Página Única */
+        /* IMPRESSÃO FIXA: Forçar Página Única em A4 Landscape sem transbordo de pixéis */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 0;
+                margin: 0 !important;
             }
             html, body {
-                width: 100% !important;
-                height: 100% !important;
+                width: 297mm !important;
+                height: 210mm !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 background-color: #ffffff;
@@ -254,10 +254,10 @@
                 flex-direction: row !important;
                 justify-content: center !important;
                 align-items: center !important;
-                width: 100vw !important;
-                height: 100vh !important;
-                gap: 12mm !important;
-                padding: 6mm !important;
+                width: 297mm !important;
+                height: 210mm !important;
+                gap: 6mm !important; 
+                padding: 5mm !important;
                 box-sizing: border-box !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
@@ -265,23 +265,25 @@
             .a5-container {
                 box-shadow: none !important;
                 box-sizing: border-box !important;
-                width: calc(50% - 6mm) !important; /* Limite dinâmico perfeito para metade do A4 horizontal */
-                max-width: calc(50% - 6mm) !important;
-                height: 94vh !important; /* Aproveita o máximo da altura útil da página */
-                max-height: 19cm !important;
+                width: 140mm !important;      
+                max-width: 140mm !important;
+                height: 195mm !important;     
+                max-height: 195mm !important;
                 border: 8px solid #ffdc00 !important;
-                padding: 6mm 5mm !important; /* Ligeira redução para evitar overflow de campos */
+                padding: 6mm 5mm !important; 
                 display: flex !important;
                 flex-direction: column !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             .clone-block {
                 display: flex !important;
             }
-            .header { margin-bottom: 4mm; }
-            .stop-box { height: 4.8cm; margin-bottom: 4mm; }
-            .form-group { margin-bottom: 5mm; }
-            .form-row { margin-bottom: 5mm; }
-            .form-block { margin-bottom: 4mm; }
+            .header { margin-bottom: 3mm; }
+            .stop-box { height: 5cm; margin-bottom: 3mm; }
+            .form-group { margin-bottom: 4mm; }
+            .form-row { margin-bottom: 4mm; }
+            .form-block { margin-bottom: 3mm; }
         }
     </style>
 </head>
