@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRIGO - STOP NÃO USAR (DUPLO A4)</title>
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJidXR0b24iOiAiaGlkZGVuIiwKICAiaWQiOiAiLyIsCiAgIm5hbWUiOiAiVFJJR08gU1RPUCBOYW8gVXNhciIsCiAgInNob3J0X25hbWUiOiAiU1RPUCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2ZmZGMwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9CiAgXQp9">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJidXR0b24iOiAiaGlkZGVuIiwKICAiaWQiOiAiLyIsCiAgIm5hbWUiOiAiVFJJR08gU1RPUCBOYW8gVXNhciIsCiAgInNob3J0X25hbWUiOiAiU1RPUCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiaZlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2ZmZGMwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9CiAgXQp9">
     
     <meta name="theme-color" content="#ffdc00">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,24 +27,24 @@
             overflow-x: hidden;
         }
         
-        /* Floating Digital Control Buttons - Ajustados ao tamanho do cartão (14cm) */
+        /* Floating Control Buttons */
         .actions {
             margin-bottom: 20px;
             display: flex;
-            gap: 10px; /* Espaçamento moderno entre botões */
+            gap: 10px;
             width: 100%;
-            max-width: 14cm; /* Alinhamento estrito com a largura do cartão A5 */
+            max-width: 14cm;
         }
         .btn {
             background-color: #034263;
             color: white;
             border: none;
-            padding: 14px 10px; /* Ligeiramente mais alto para toque mobile fácil */
-            font-size: 13px; /* Ajuste fino para o texto caber sem quebrar em ecrãs pequenos */
+            padding: 14px 10px;
+            font-size: 13px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            flex: 1; /* Garante tamanho exatamente igual para os três */
+            flex: 1;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: background-color 0.2s;
@@ -230,50 +230,58 @@
             font-weight: bold;
         }
         
-        /* Print Styles */
+        /* Print Styles Completamente Otimizados para Forçar Página Única */
         @media print {
             @page {
                 size: A4 landscape;
                 margin: 0;
             }
-            body {
-                background-color: #ffffff;
-                padding: 5mm !important;
+            html, body {
+                width: 100% !important;
+                height: 100% !important;
                 margin: 0 !important;
-                display: block;
+                padding: 0 !important;
+                background-color: #ffffff;
                 overflow: hidden !important;
-                height: 100%;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+            .actions {
+                display: none !important;
+            }
             .print-page {
                 display: flex !important;
-                gap: 8mm;
-                align-items: flex-start;
-                justify-content: center;
-                page-break-inside: avoid;
-                break-inside: avoid;
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                gap: 12mm !important;
+                padding: 6mm !important;
+                box-sizing: border-box !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             .a5-container {
-                box-shadow: none;
+                box-shadow: none !important;
                 box-sizing: border-box !important;
-                width: 14cm !important;
-                max-width: 14cm !important;
-                height: 18.5cm !important;
+                width: calc(50% - 6mm) !important; /* Limite dinâmico perfeito para metade do A4 horizontal */
+                max-width: calc(50% - 6mm) !important;
+                height: 94vh !important; /* Aproveita o máximo da altura útil da página */
+                max-height: 19cm !important;
                 border: 8px solid #ffdc00 !important;
-                padding: 10mm 5mm !important;
+                padding: 6mm 5mm !important; /* Ligeira redução para evitar overflow de campos */
+                display: flex !important;
+                flex-direction: column !important;
             }
             .clone-block {
                 display: flex !important;
             }
-            .actions {
-                display: none;
-            }
-            .header { margin-bottom: 5mm; }
-            .stop-box { height: 5.2cm; margin-bottom: 5mm; }
-            .form-group { margin-bottom: 6mm; }
-            .form-row { margin-bottom: 6mm; }
-            .form-block { margin-bottom: 5mm; }
+            .header { margin-bottom: 4mm; }
+            .stop-box { height: 4.8cm; margin-bottom: 4mm; }
+            .form-group { margin-bottom: 5mm; }
+            .form-row { margin-bottom: 5mm; }
+            .form-block { margin-bottom: 4mm; }
         }
     </style>
 </head>
@@ -479,7 +487,6 @@
                         
                         localStorage.setItem(fieldId, val);
                         const otherNum = num === 1 ? 2 : 1;
-                        const otherEl = document.getElementById(`${fieldId}_otherNum`);
                         const targetOther = document.getElementById(`${fieldId}_${otherNum}`);
                         if (targetOther) targetOther.value = val;
 
