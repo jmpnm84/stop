@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.5.0</title>
+    <title>Trigo - STOP v3.5.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -145,16 +145,20 @@
         const listSugestoes = document.getElementById('suggestions_list_1');
 
         inputRef.addEventListener('input', function() {
-            const query = this.value.trim();
+            const query = this.value.trim().toLowerCase();
             listSugestoes.innerHTML = "";
-            if (query.length < 3 || !db) { listSugestoes.style.display = "none"; return; }
+            if (query.length < 1 || !db) { listSugestoes.style.display = "none"; return; }
             
-            db.transaction("referencias").objectStore("referencias").openCursor().onsuccess = e => {
+            const transaction = db.transaction("referencias", "readonly");
+            const store = transaction.objectStore("referencias");
+            
+            store.openCursor().onsuccess = e => {
                 const cursor = e.target.result;
                 if (cursor) {
-                    // Filtra pelos 3 últimos dígitos
-                    const refString = String(cursor.value.ref);
-                    if (refString.length >= 3 && refString.slice(-3) === query.slice(-3)) {
+                    const ref = String(cursor.value.ref).toLowerCase();
+                    const peca = String(cursor.value.peca).toLowerCase();
+                    
+                    if (ref.includes(query) || peca.includes(query)) {
                         const li = document.createElement('li');
                         li.textContent = `${cursor.value.ref} - ${cursor.value.peca}`;
                         li.onclick = () => {
@@ -170,11 +174,14 @@
             };
         });
 
+        document.addEventListener('click', (e) => {
+            if (e.target !== inputRef) listSugestoes.style.display = "none";
+        });
+
         ['pecas_1', 'quantidade_1', 'data_1', 'responsavel_1', 'motivo_1', 'observacoes_1'].forEach(id => {
             document.getElementById(id).addEventListener('input', (e) => {
                 const targetId = id.replace('_1', '_2');
-                const targetEl = document.getElementById(targetId);
-                if(targetEl) targetEl.value = e.target.value;
+                if(document.getElementById(targetId)) document.getElementById(targetId).value = e.target.value;
             });
         });
 
