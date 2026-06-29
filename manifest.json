@@ -1,0 +1,23 @@
+{
+  "id": "trigo-stop-pwa",
+  "name": "TRIGO STOP Nao Usar",
+  "short_name": "STOP",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffdc00",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/user-attachments/assets/78790071-93f2-4de7-8db4-dcb8cc28b45b",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/user-attachments/assets/78790071-93f2-4de7-8db4-dcb8cc28b45b",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
