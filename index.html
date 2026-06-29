@@ -204,11 +204,11 @@
             font-weight: bold;
         }
         
-        /* AJUSTE FIXO E MILIMÉTRICO PARA IMPRESSORAS MOPRIA / ANDROID */
+        /* AJUSTE FIXO E MILIMÉTRICO PARA IMPRESSÃO PERFEITA */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 0mm !important; /* Tenta remover margens do browser */
+                margin: 0mm !important;
             }
             html, body {
                 width: 297mm !important;
@@ -223,37 +223,34 @@
                 display: none !important;
             }
             .print-page {
-                display: block !important; 
+                display: flex !important; 
+                justify-content: center !important;
+                align-items: center !important;
                 width: 297mm !important;
                 height: 210mm !important;
                 margin: 0 !important;
-                padding: 4mm 4mm !important; /* Espaço para a folha respirar na impressora */
+                padding: 5mm !important; 
                 box-sizing: border-box !important;
-                white-space: nowrap !important; 
+                white-space: normal !important;
             }
             .a5-container {
                 box-shadow: none !important;
                 box-sizing: border-box !important;
-                display: inline-flex !important; 
+                display: flex !important; 
                 flex-direction: column !important;
-                /* Encolhimento estratégico para compensar margens físicas da impressora */
-                width: 132mm !important; 
-                max-width: 132mm !important;
-                height: 182mm !important;     
-                max-height: 182mm !important;
+                width: 135mm !important; 
+                max-width: 135mm !important;
+                height: 190mm !important;     
+                max-height: 190mm !important;
                 border: 7px solid #ffdc00 !important;
                 padding: 4mm 4mm !important;
-                margin-right: 4mm !important; 
+                margin: 0 3mm !important; 
                 vertical-align: top !important;
-                white-space: normal !important; 
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
-            .a5-container:last-child {
-                margin-right: 0 !important;
-            }
             .clone-block {
-                display: inline-flex !important;
+                display: flex !important;
             }
             .header { margin-bottom: 2mm; }
             .stop-box { height: 4.2cm; margin-bottom: 2mm; }
