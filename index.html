@@ -1,901 +1,457 @@
 <!DOCTYPE html>
-
 <html lang="pt">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>TRIGO - STOP NÃO USAR (DUPLO A4)</title>
-
     
-
     <link rel="manifest" href="data:application/manifest+json;base64,ewogICJpZCI6ICIvIiwKICAibmFtZSI6ICJUUklHTyBTVE9QIE5hbyBVc2FyIiwKICAic2hvcnRfbmFtZSI6ICJTVE9QIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJ0aGVtZV9jb2xvciI6ICIjZmZkYzAwIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3VzZXItYXR0YWNobWVudHMvYXNzZXRzLzc4NzkwMDcxLTkzZjItNGRlNy04ZGI0LWRjYjhjYzM4YjQ1YiIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IiwKICAgICAgImNyb3NzT3JpZ2luIjogImFub255bW91cyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3VzZXItYXR0YWNobWVudHMvYXNzZXRzLzc4NzkwMDcxLTkzZjItNGRlNy04ZGI0LWRjYjhjYzM4YjQ1YiIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IiwKICAgICAgImNyb3NzT3JpZ2luIjogImFub255bW91cyIKICAgIH0KICBdCn0=">
-
     
-
     <meta name="theme-color" content="#ffdc00">
-
     <meta name="apple-mobile-web-app-capable" content="yes">
-
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
     <style>
-
         * {
-
             box-sizing: border-box;
-
             font-family: Arial, sans-serif;
-
         }
-
         body {
-
             margin: 0;
-
             padding: 15px 10px;
-
             background-color: #f0f0f0;
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
             min-height: 100vh;
-
             width: 100%;
-
             overflow-x: hidden;
-
         }
-
         
-
         /* Floating Digital Control Buttons */
-
         .actions {
-
             margin-bottom: 20px;
-
             display: flex;
-
             gap: 8px;
-
             flex-wrap: wrap;
-
             justify-content: center;
-
             width: 100%;
-
             max-width: 14cm;
-
         }
-
         .btn {
-
             background-color: #034263;
-
             color: white;
-
             border: none;
-
             padding: 12px 18px;
-
             font-size: 14px;
-
             border-radius: 4px;
-
             cursor: pointer;
-
             font-weight: bold;
-
             flex: 1;
-
             min-width: 140px;
-
             text-align: center;
-
         }
-
         .btn-clear {
-
             background-color: #d61c1c;
-
         }
-
-
 
         /* Container principal centrado no ecrã */
-
         .print-page {
-
             display: flex;
-
             gap: 10mm;
-
             justify-content: center;
-
             align-items: center;
-
             width: 100%;
-
             background-color: transparent;
-
         }
-
-
 
         /* Custom Dimensions com adaptação mobile */
-
         .a5-container {
-
             width: 14cm;
-
             max-width: 100%;
-
             height: 19.5cm;
-
             background-color: #ffffff;
-
             border: 8px solid #ffdc00;
-
             padding: 8mm 5mm;
-
             position: relative;
-
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-
             display: flex;
-
             flex-direction: column;
-
         }
-
         
-
         /* Ocultar a segunda cópia no ecrã (Tablet e Smartphone) */
-
         .clone-block {
-
             display: none;
-
         }
-
         
-
         /* Logo Header Area */
-
         .header {
-
             display: flex;
-
             justify-content: flex-start;
-
             align-items: center;
-
             margin-bottom: 4mm;
-
         }
-
         .logo-image {
-
             height: 40px;
-
             max-width: 100%;
-
             object-fit: contain;
-
         }
-
-
 
         /* STOP Box */
-
         .stop-box {
-
             border: 2px dashed #333333;
-
             padding: 10px;
-
             text-align: center;
-
             margin: 0 auto 5mm auto;
-
             width: 100%;
-
             max-width: 9cm;
-
             height: 5.5cm;
-
             display: flex;
-
             flex-direction: column;
-
             justify-content: center;
-
             align-items: center;
-
         }
-
         .stop-sign {
-
             width: 65px;
-
             height: 65px;
-
             background-color: #7f7f7f;
-
             position: relative;
-
             margin: 0 auto 6px auto;
-
             clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             border: 3px solid #ffffff;
-
             outline: 2px solid #7f7f7f;
-
             flex-shrink: 0;
-
         }
-
         .stop-text {
-
             color: #ffffff;
-
             font-size: 18px;
-
             font-weight: bold;
-
             letter-spacing: 1px;
-
         }
-
         .nao-usar {
-
             color: #d61c1c;
-
             font-size: 16px;
-
             font-weight: bold;
-
             letter-spacing: 1px;
-
             margin: 3px 0 0 0;
-
         }
-
-
 
         /* Form Fields Layout */
-
         .form-group {
-
             display: flex;
-
             align-items: flex-end;
-
             margin-bottom: 5mm;
-
             width: 100%;
-
         }
-
         .form-label {
-
             font-size: 13px;
-
             font-weight: normal;
-
             color: #000000;
-
             white-space: nowrap;
-
             margin-right: 8px;
-
             padding-bottom: 2px;
-
         }
-
         .form-input {
-
             flex-grow: 1;
-
             border: none;
-
             border-bottom: 1px solid #000000;
-
             font-size: 13px;
-
             padding: 2px 5px;
-
             background: transparent;
-
             outline: none;
-
             color: #333333;
-
             text-align: center;
-
             min-width: 0;
-
         }
-
         .form-input:focus {
-
             background-color: #fffde7;
-
         }
-
         
-
         #data_1, #data_2 {
-
             text-align: center;
-
             max-width: 95px; 
-
             flex-grow: 1;
-
         }
-
         
-
         /* Quantity and Date Alignment */
-
         .form-row {
-
             display: flex;
-
             justify-content: space-between;
-
             width: 100%;
-
             margin-bottom: 5mm;
-
             gap: 10px;
-
         }
-
         .form-row .form-group {
-
             margin-bottom: 0;
-
         }
-
         .form-row .form-group:first-child {
-
             width: 55%;
-
         }
-
         .form-row .form-group:last-child {
-
             width: 45%;
-
             justify-content: flex-start;
-
         }
-
-
 
         /* Textareas */
-
         .form-block {
-
             display: flex;
-
             flex-direction: column;
-
             margin-bottom: 4mm;
-
         }
-
         .form-block.expandable {
-
             margin-bottom: 0;
-
         }
-
         .form-block .form-label {
-
             margin-bottom: 4px;
-
         }
-
         .form-textarea {
-
             width: 100%;
-
             border: none;
-
             border-bottom: 1px solid #000000;
-
             font-size: 13px;
-
             line-height: 1.5;
-
             resize: none;
-
             outline: none;
-
             background: transparent;
-
             padding: 2px 5px;
-
             text-align: center;
-
         }
 
+        /* Nova regra para destacar o campo Motivo */
+        #motivo_1, #motivo_2 {
+            color: #d61c1c;
+            font-weight: bold;
+        }
         
-
         /* Print Styles */
-
         @media print {
-
             @page {
-
                 size: A4 landscape;
-
                 margin: 5mm;
-
             }
-
             body {
-
                 background-color: #ffffff;
-
                 padding: 0;
-
                 display: block;
-
                 overflow-x: visible;
-
             }
-
             .print-page {
-
                 display: flex !important;
-
                 gap: 8mm;
-
                 align-items: flex-start;
-
             }
-
             .a5-container {
-
                 box-shadow: none;
-
                 width: 14cm !important;
-
                 height: 19.5cm !important;
-
                 max-width: 14cm !important;
-
                 border: 8px solid #ffdc00 !important;
-
                 padding: 12mm 6mm;
-
                 -webkit-print-color-adjust: exact;
-
                 print-color-adjust: exact;
-
             }
-
             .clone-block {
-
                 display: flex !important;
-
             }
-
             .actions {
-
                 display: none;
-
             }
-
             .header { margin-bottom: 6mm; }
-
             .stop-box { height: 6cm; margin-bottom: 6mm; }
-
             .form-group { margin-bottom: 7mm; }
-
             .form-row { margin-bottom: 7mm; }
-
             .form-block { margin-bottom: 6mm; }
-
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
     <div class="actions">
-
         <button class="btn btn-clear" onclick="clearForm()">Limpar Campos</button>
-
         <button class="btn" onclick="window.print()">Imprimir / Guardar PDF (A4 Paisagem)</button>
-
     </div>
-
-
 
     <div class="print-page">
-
         
-
         <div class="a5-container">
-
             <div class="header">
-
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
-
             </div>
-
             <div class="stop-box">
-
                 <div class="stop-sign"><span class="stop-text">STOP</span></div>
-
                 <div class="nao-usar">NÃO USAR</div>
-
             </div>
-
             <div class="form-group">
-
                 <label class="form-label">Ref.:</label>
-
                 <input type="text" id="ref_1" class="form-input">
-
             </div>
-
             <div class="form-group">
-
                 <label class="form-label">Peças:</label>
-
                 <input type="text" id="pecas_1" class="form-input">
-
             </div>
-
             <div class="form-row">
-
                 <div class="form-group">
-
                     <label class="form-label">Quantidade:</label>
-
                     <input type="text" id="quantidade_1" class="form-input">
-
                 </div>
-
                 <div class="form-group">
-
                     <label class="form-label">Data:</label>
-
                     <input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
-
                 </div>
-
             </div>
-
             <div class="form-group">
-
                 <label class="form-label">Responsável:</label>
-
                 <input type="text" id="responsavel_1" class="form-input">
-
             </div>
-
             <div class="form-block">
-
                 <label class="form-label">Motivo:</label>
-
                 <textarea id="motivo_1" class="form-textarea" style="min-height: 40px;"></textarea>
-
             </div>
-
             <div class="form-block expandable">
-
                 <label class="form-label">Observações:</label>
-
                 <textarea id="observacoes_1" class="form-textarea" style="min-height: 40px; height: 40px;"></textarea>
-
             </div>
-
         </div>
-
-
 
         <div class="a5-container clone-block">
-
             <div class="header">
-
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
-
             </div>
-
             <div class="stop-box">
-
                 <div class="stop-sign"><span class="stop-text">STOP</span></div>
-
                 <div class="nao-usar">NÃO USAR</div>
-
             </div>
-
             <div class="form-group">
-
                 <label class="form-label">Ref.:</label>
-
                 <input type="text" id="ref_2" class="form-input">
-
             </div>
-
             <div class="form-group">
-
                 <label class="form-label">Peças:</label>
-
                 <input type="text" id="pecas_2" class="form-input">
-
             </div>
-
             <div class="form-row">
-
                 <div class="form-group">
-
                     <label class="form-label">Quantidade:</label>
-
                     <input type="text" id="quantidade_2" class="form-input">
-
                 </div>
-
                 <div class="form-group">
-
                     <label class="form-label">Data:</label>
-
                     <input type="text" id="data_2" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
-
                 </div>
-
             </div>
-
             <div class="form-group">
-
                 <label class="form-label">Responsável:</label>
-
                 <input type="text" id="responsavel_2" class="form-input">
-
             </div>
-
             <div class="form-block">
-
                 <label class="form-label">Motivo:</label>
-
                 <textarea id="motivo_2" class="form-textarea" style="min-height: 40px;"></textarea>
-
             </div>
-
             <div class="form-block expandable">
-
                 <label class="form-label">Observações:</label>
-
                 <textarea id="observacoes_2" class="form-textarea" style="min-height: 40px; height: 40px;"></textarea>
-
             </div>
-
         </div>
-
-
 
     </div>
 
-
-
     <script>
-
         // Registo PWA via Data URI para contornar restrições de ficheiro único
-
         if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
-
             const swCode = `
-
                 const CACHE_NAME = 'trigo-stop-cache-v1';
-
                 self.addEventListener('install', (e) => {
-
                     self.skipWaiting();
-
                 });
-
                 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-
                 self.addEventListener('fetch', (e) => {
-
                     e.respondWith(
-
                         fetch(e.request).catch(() => new Response("Offline"))
-
                     );
-
                 });
-
             `;
-
             
-
             // Injeção via base64 data URI (Mais aceite pelo Chrome para Single File)
-
             const swUrl = 'data:application/javascript;base64,' + btoa(swCode);
-
             
-
             navigator.serviceWorker.register(swUrl, { scope: '/' })
-
                 .then(() => console.log('PWA Single-File configurado com sucesso.'))
-
                 .catch(err => console.log('Aviso PWA:', err));
-
         }
-
-
 
         const baseFields = ['ref', 'pecas', 'quantidade', 'data', 'responsavel', 'motivo', 'observacoes'];
-
         
-
         function formatarData(input) {
-
             let v = input.value.replace(/\D/g, ''); 
-
             if (v.length > 8) v = v.substring(0, 8);
-
             
-
             if (v.length > 4) {
-
                 v = v.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
-
             } else if (v.length > 2) {
-
                 v = v.replace(/^(\d{2})(\d{1,2})$/, '$1/$2');
-
             }
-
             return v;
-
         }
-
-
 
         window.addEventListener('load', () => {
-
             baseFields.forEach(fieldId => {
-
                 const savedValue = localStorage.getItem(fieldId);
-
                 
-
                 [1, 2].forEach(num => {
-
                     const el = document.getElementById(`${fieldId}_${num}`);
-
                     if (savedValue) el.value = savedValue;
-
                     
-
                     el.addEventListener('input', (e) => {
-
                         let val = e.target.value;
-
                         
-
                         if (fieldId === 'data') {
-
                             val = formatarData(e.target);
-
                             e.target.value = val;
-
                         }
 
-
-
                         localStorage.setItem(fieldId, val);
-
                         
-
                         const otherNum = num === 1 ? 2 : 1;
-
                         const otherEl = document.getElementById(`${fieldId}_${otherNum}`);
-
                         if (otherEl) otherEl.value = val;
-
                     });
-
                 });
-
             });
-
             
-
             const date1 = document.getElementById('data_1');
-
             if (!date1.value) {
-
                 const hoje = new Date();
-
                 const dd = String(hoje.getDate()).padStart(2, '0');
-
                 const mm = String(hoje.getMonth() + 1).padStart(2, '0');
-
                 const aaaa = hoje.getFullYear();
-
                 const dataFormatada = `${dd}/${mm}/${aaaa}`;
-
                 
-
                 document.getElementById('data_1').value = dataFormatada;
-
                 document.getElementById('data_2').value = dataFormatada;
-
                 localStorage.setItem('data', dataFormatada);
-
             }
-
         });
 
-
-
         function clearForm() {
-
             if(confirm("Tem a certeza que deseja limpar todos os campos?")) {
-
                 baseFields.forEach(fieldId => {
-
                     localStorage.removeItem(fieldId);
-
                     document.getElementById(`${fieldId}_1`).value = '';
-
                     document.getElementById(`${fieldId}_2`).value = '';
-
                 });
-
                 const hoje = new Date();
-
                 const dd = String(hoje.getDate()).padStart(2, '0');
-
                 const mm = String(hoje.getMonth() + 1).padStart(2, '0');
-
                 const aaaa = hoje.getFullYear();
-
                 const dataFormatada = `${dd}/${mm}/${aaaa}`;
-
                 
-
                 document.getElementById('data_1').value = dataFormatada;
-
                 document.getElementById('data_2').value = dataFormatada;
-
                 localStorage.setItem('data', dataFormatada);
-
             }
-
         }
-
     </script>
-
 </body>
-
 </html>
