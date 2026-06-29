@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.4.6</title>
+    <title>Trigo - STOP v3.4.7</title>
     
+    <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Trigo STOP">
     <meta name="theme-color" content="#ffdc00">
 
     <style>
@@ -102,16 +104,21 @@
     </div>
 
     <script>
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW falhou:', err));
+            });
+        }
+
         const API_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
         const DB_NAME = "TrigoStopDB";
         let db;
 
-        // Inicia IndexedDB
         const request = indexedDB.open(DB_NAME, 1);
         request.onupgradeneeded = e => e.target.result.createObjectStore("referencias", { keyPath: "ref" });
         request.onsuccess = e => db = e.target.result;
 
-        // Função de Sincronização
         async function importarDoDrive() {
             const btn = document.getElementById('btnSync');
             btn.disabled = true; btn.innerText = "Sincronizando...";
@@ -127,7 +134,6 @@
             btn.disabled = false; btn.innerText = "Sincronizar";
         }
 
-        // Sistema de Busca (Autocomplete) e Espelhamento
         const inputRef = document.getElementById('ref_1');
         const listSugestoes = document.getElementById('suggestions_list_1');
 
@@ -155,7 +161,6 @@
             };
         });
 
-        // Espelhamento automático de outros campos
         ['pecas_1', 'quantidade_1', 'data_1', 'responsavel_1', 'motivo_1', 'observacoes_1'].forEach(id => {
             document.getElementById(id).addEventListener('input', (e) => {
                 const targetId = id.replace('_1', '_2');
