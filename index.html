@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trigo - STOP v1.0.0</title>
+    <title>Trigo - STOP v1.1.0</title>
     
     <link rel="manifest" href="data:application/manifest+json;base64,ewogICJidXR0b24iOiAiaGlkZGVuIiwKICAiaWQiOiAiLyIsCiAgIm5hbWUiOiAiVFJJR08gU1RPUCBOYW8gVXNhciIsCiAgInNob3J0X25hbWUiOiAiU1RPUCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiaZlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiaYFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2ZmZGMwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9CiAgXQp9">
     
@@ -27,7 +27,6 @@
             overflow-x: hidden;
         }
         
-        /* Floating Control Buttons */
         .actions {
             margin-bottom: 20px;
             display: flex;
@@ -52,14 +51,9 @@
         .btn:active {
             transform: scale(0.98);
         }
-        .btn-clear {
-            background-color: #d61c1c;
-        }
-        .btn-sync {
-            background-color: #2196F3;
-        }
+        .btn-clear { background-color: #d61c1c; }
+        .btn-sync { background-color: #2196F3; }
 
-        /* Container principal centrado no ecrã */
         .print-page {
             display: flex;
             gap: 10mm;
@@ -69,7 +63,6 @@
             background-color: transparent;
         }
 
-        /* Custom Dimensions com adaptação mobile */
         .a5-container {
             width: 14cm;
             max-width: 100%;
@@ -83,12 +76,8 @@
             flex-direction: column;
         }
         
-        /* Ocultar a segunda cópia no ecrã (Tablet e Smartphone) */
-        .clone-block {
-            display: none;
-        }
+        .clone-block { display: none; }
         
-        /* Logo Header Area */
         .header {
             display: flex;
             justify-content: flex-start;
@@ -101,7 +90,6 @@
             object-fit: contain;
         }
 
-        /* STOP Box */
         .stop-box {
             border: 2px dashed #333333;
             padding: 10px;
@@ -143,7 +131,6 @@
             margin: 3px 0 0 0;
         }
 
-        /* Form Fields Layout */
         .form-group {
             display: flex;
             align-items: flex-end;
@@ -170,9 +157,7 @@
             text-align: center;
             min-width: 0;
         }
-        .form-input:focus {
-            background-color: #fffde7;
-        }
+        .form-input:focus { background-color: #fffde7; }
         
         #data_1, #data_2 {
             text-align: center;
@@ -180,7 +165,6 @@
             flex-grow: 1;
         }
         
-        /* Quantity and Date Alignment */
         .form-row {
             display: flex;
             justify-content: space-between;
@@ -188,29 +172,20 @@
             margin-bottom: 5mm;
             gap: 10px;
         }
-        .form-row .form-group {
-            margin-bottom: 0;
-        }
-        .form-row .form-group:first-child {
-            width: 55%;
-        }
+        .form-row .form-group { margin-bottom: 0; }
+        .form-row .form-group:first-child { width: 55%; }
         .form-row .form-group:last-child {
             width: 45%;
             justify-content: flex-start;
         }
 
-        /* Textareas */
         .form-block {
             display: flex;
             flex-direction: column;
             margin-bottom: 4mm;
         }
-        .form-block.expandable {
-            margin-bottom: 0;
-        }
-        .form-block .form-label {
-            margin-bottom: 4px;
-        }
+        .form-block.expandable { margin-bottom: 0; }
+        .form-block .form-label { margin-bottom: 4px; }
         .form-textarea {
             width: 100%;
             border: none;
@@ -224,66 +199,66 @@
             text-align: center;
         }
 
-        /* Destaque para o campo Motivo */
         #motivo_1, #motivo_2 {
             color: #d61c1c;
             font-weight: bold;
         }
         
-        /* IMPRESSÃO FIXA: Forçar Página Única em A4 Landscape sem transbordo de pixéis */
+        /* CSS ULTRA OTIMIZADO PARA GOOGLE CHROME MOBILE / ANDROID */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 0 !important;
+                margin: 0mm !important;
             }
             html, body {
                 width: 297mm !important;
                 height: 210mm !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                background-color: #ffffff;
+                margin: 0mm !important;
+                padding: 0mm !important;
+                background-color: #ffffff !important;
                 overflow: hidden !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                display: block !important;
             }
             .actions {
                 display: none !important;
             }
             .print-page {
-                display: flex !important;
-                flex-direction: row !important;
-                justify-content: center !important;
-                align-items: center !important;
+                display: block !important; /* Android lida melhor com block + inline-block na impressao */
                 width: 297mm !important;
                 height: 210mm !important;
-                gap: 6mm !important; 
-                padding: 5mm !important;
+                margin: 0 !important;
+                padding: 6mm 5mm !important;
                 box-sizing: border-box !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+                white-space: nowrap !important; /* Evita quebra de linha entre os blocos */
             }
             .a5-container {
                 box-shadow: none !important;
                 box-sizing: border-box !important;
-                width: 140mm !important;      
-                max-width: 140mm !important;
-                height: 195mm !important;     
-                max-height: 195mm !important;
-                border: 8px solid #ffdc00 !important;
-                padding: 6mm 5mm !important; 
-                display: flex !important;
+                display: inline-flex !important; /* Coloca-os lado a lado rigidamente */
                 flex-direction: column !important;
+                width: 136mm !important; /* Margem de segurança extra para Android/Mopria */
+                max-width: 136mm !important;
+                height: 190mm !important;     
+                max-height: 190mm !important;
+                border: 7px solid #ffdc00 !important;
+                padding: 5mm 4mm !important;
+                margin-right: 5mm !important; /* Espaço regulado entre os dois */
+                vertical-align: top !important;
+                white-space: normal !important; /* Restaura comportamento de texto interno */
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
-            .clone-block {
-                display: flex !important;
+            .a5-container:last-child {
+                margin-right: 0 !important;
             }
-            .header { margin-bottom: 3mm; }
-            .stop-box { height: 5cm; margin-bottom: 3mm; }
-            .form-group { margin-bottom: 4mm; }
-            .form-row { margin-bottom: 4mm; }
-            .form-block { margin-bottom: 3mm; }
+            .clone-block {
+                display: inline-flex !important;
+            }
+            .header { margin-bottom: 2mm; }
+            .stop-box { height: 4.5cm; margin-bottom: 3mm; }
+            .form-group { margin-bottom: 3mm; }
+            .form-row { margin-bottom: 3mm; }
+            .form-block { margin-bottom: 2mm; }
         }
     </style>
 </head>
