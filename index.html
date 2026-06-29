@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.4.2</title>
+    <title>Trigo - STOP v3.4.3</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -181,7 +181,6 @@
                 store.clear();
 
                 dados.forEach(item => {
-                    // Mapeamento direto com base nas chaves exatas enviadas pelo Apps Script
                     let referencia = item.referencia;
                     let peca = item.nomePeca;
                     
@@ -236,7 +235,6 @@
                             inputRef.value = item.ref;
                             inputPecas.value = item.peca;
                             
-                            // Força a atualização imediata do Bloco 2 quando clicado
                             document.getElementById('ref_2').value = item.ref;
                             document.getElementById('pecas_2').value = item.peca;
 
@@ -279,7 +277,6 @@
             document.getElementById('data_2').value = dFmt;
         });
         
-        // Ajuste inteligente adaptativo do tamanho da fonte para quebras de linha
         ['motivo_1', 'observacoes_1'].forEach(idOrigem => {
             const base = idOrigem.split('_')[0];
             const elOrigem = document.getElementById(idOrigem);
@@ -289,7 +286,6 @@
                 let fontSize = 24;
                 this.style.fontSize = fontSize + 'px';
                 
-                // Reduz dinamicamente a fonte se o conteúdo exceder a altura padrão do elemento
                 while (this.scrollHeight > 45 && fontSize > 11) {
                     fontSize--;
                     this.style.fontSize = fontSize + 'px';
