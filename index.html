@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.3.1</title>
+    <title>Trigo - STOP v3.3.2</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -39,9 +39,8 @@
         
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
         .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
-        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #000000; }
+        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #d61c1c; overflow: hidden; }
 
-        #motivo_1 { color: #d61c1c; font-weight: bold; font-size: 24px; }
         .observacoes-wrapper { margin-top: auto; margin-bottom: 5mm; }
 
         @media print {
@@ -86,12 +85,25 @@
         }
         document.getElementById('data_1').addEventListener('input', (e) => { e.target.value = formatarData(e.target.value); });
         
+        const motivo = document.getElementById('motivo_1');
+        motivo.addEventListener('input', function() {
+            let fontSize = 24;
+            this.style.fontSize = fontSize + 'px';
+            
+            // Reduz a fonte enquanto o texto exceder a altura da caixa
+            while (this.scrollHeight > this.offsetHeight && fontSize > 10) {
+                fontSize--;
+                this.style.fontSize = fontSize + 'px';
+            }
+        });
+
         function clearForm() {
             document.querySelectorAll('input, textarea').forEach(el => {
                 if (el.id === 'responsavel_1') {
                     el.value = 'SQF';
                 } else {
                     el.value = '';
+                    if(el.id === 'motivo_1') el.style.fontSize = '24px';
                 }
             });
         }
