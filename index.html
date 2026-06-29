@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.2.5</title>
+    <title>Trigo - STOP v3.2.4</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,7 +26,6 @@
 
         .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
         
-        /* ADAPTAÇÃO PARA TABLET EM PORTRAIT */
         @media screen and (max-width: 768px) {
             .a5-container { width: 95% !important; height: auto; min-height: 19.5cm; }
             .print-page { flex-direction: column; }
@@ -111,11 +110,15 @@
         const baseFields = ['ref', 'pecas', 'quantidade', 'data', 'responsavel', 'motivo', 'observacoes'];
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
 
-        function formatarData(input) {
-            let v = input.value.replace(/\D/g, ''); 
+        function formatarData(value) {
+            let v = value.replace(/\D/g, ''); 
             if (v.length > 8) v = v.substring(0, 8);
-            if (v.length > 4) v = v.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
-            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{1,2})$/, '$1/$2');
+            
+            if (v.length >= 5) {
+                return v.replace(/(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
+            } else if (v.length > 2) {
+                return v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
+            }
             return v;
         }
 
@@ -131,9 +134,15 @@
                 [1, 2].forEach(num => {
                     const el = document.getElementById(`${fieldId}_${num}`);
                     if (savedValue) el.value = savedValue;
+                    
                     el.addEventListener('input', (e) => {
                         let val = e.target.value;
-                        if (fieldId === 'data') val = formatarData(e.target);
+                        
+                        if (fieldId === 'data') {
+                            val = formatarData(val);
+                            e.target.value = val;
+                        }
+
                         localStorage.setItem(fieldId, val);
                         document.getElementById(`${fieldId}_${num === 1 ? 2 : 1}`).value = val;
                         if (fieldId === 'motivo') ajustarTamanhoFonteMotivo(val);
