@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trigo - STOP v1.1.1</title>
+    <title>Trigo - STOP v1.1.0</title>
     
     <link rel="manifest" href="data:application/manifest+json;base64,ewogICJidXR0b24iOiAiaGlkZGVuIiwKICAiaWQiOiAiLyIsCiAgIm5hbWUiOiAiVFJJR08gU1RPUCBOYW8gVXNhciIsCiAgInNob3J0X25hbWUiOiAiU1RPUCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiaZlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiaYFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2ZmZGMwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9CiAgXQp9">
     
@@ -204,11 +204,11 @@
             font-weight: bold;
         }
         
-        /* OTIMIZAÇÃO EXCLUSIVA PARA MARGENS DA RICOH IM C300 */
+        /* AJUSTE FIXO E MILIMÉTRICO PARA IMPRESSORAS MOPRIA / ANDROID */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 0mm !important; 
+                margin: 0mm !important; /* Tenta remover margens do browser */
             }
             html, body {
                 width: 297mm !important;
@@ -227,7 +227,7 @@
                 width: 297mm !important;
                 height: 210mm !important;
                 margin: 0 !important;
-                padding: 5mm 6mm !important; /* Margem física anti-vazamento da Ricoh */
+                padding: 4mm 4mm !important; /* Espaço para a folha respirar na impressora */
                 box-sizing: border-box !important;
                 white-space: nowrap !important; 
             }
@@ -236,14 +236,14 @@
                 box-sizing: border-box !important;
                 display: inline-flex !important; 
                 flex-direction: column !important;
-                /* Encolhimento estratégico para a Ricoh aceitar lado a lado na fusão */
-                width: 130mm !important; 
-                max-width: 130mm !important;
-                height: 180mm !important;     
-                max-height: 180mm !important;
+                /* Encolhimento estratégico para compensar margens físicas da impressora */
+                width: 132mm !important; 
+                max-width: 132mm !important;
+                height: 182mm !important;     
+                max-height: 182mm !important;
                 border: 7px solid #ffdc00 !important;
                 padding: 4mm 4mm !important;
-                margin-right: 6mm !important; 
+                margin-right: 4mm !important; 
                 vertical-align: top !important;
                 white-space: normal !important; 
                 page-break-inside: avoid !important;
@@ -256,7 +256,7 @@
                 display: inline-flex !important;
             }
             .header { margin-bottom: 2mm; }
-            .stop-box { height: 4.1cm; margin-bottom: 2mm; }
+            .stop-box { height: 4.2cm; margin-bottom: 2mm; }
             .form-group { margin-bottom: 2.5mm; }
             .form-row { margin-bottom: 2.5mm; }
             .form-block { margin-bottom: 2mm; }
@@ -268,14 +268,13 @@
     <div class="actions">
         <button class="btn btn-clear" onclick="clearForm()">Limpar Campos</button>
         <button class="btn btn-sync" id="btnSync" onclick="importarDoDrive()">Sincronizar</button>
-        <button class="btn" onclick="window.print()">Imprimir (Ricoh)</button>
+        <button class="btn" onclick="window.print()">Imprimir (Impressora)</button>
     </div>
 
     <datalist id="listaReferencias"></datalist>
 
     <div class="print-page">
         
-        <!-- Bloco 1 -->
         <div class="a5-container">
             <div class="header">
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
@@ -318,7 +317,6 @@
             </div>
         </div>
 
-        <!-- Bloco 2 -->
         <div class="a5-container clone-block">
             <div class="header">
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
