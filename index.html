@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.4.0</title>
+    <title>Trigo - STOP v3.4.2</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -51,7 +51,7 @@
         
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
         .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
-        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #d61c1c; overflow: hidden; }
+        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #d61c1c; overflow: hidden; height: 45px; }
 
         .observacoes-wrapper { margin-top: auto; margin-bottom: 5mm; }
 
@@ -97,8 +97,8 @@
             </div>
             
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input" value="SQF"></div>
-            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
-            <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea"></textarea></div>
+            <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea"></textarea></div>
         </div>
 
         <div class="a5-container" id="bloco2">
@@ -120,8 +120,8 @@
             </div>
             
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_2" class="form-input" value="SQF"></div>
-            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_2" class="form-textarea" style="min-height: 45px;"></textarea></div>
-            <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea" style="min-height: 45px;"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_2" class="form-textarea"></textarea></div>
+            <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea"></textarea></div>
         </div>
     </div>
 
@@ -144,23 +144,22 @@
         };
 
         // --- COMPORTAMENTO DE ESPELHAMENTO REAL-TIME ---
-        // Tudo o que for digitado no bloco 1 replica instantaneamente para o bloco 2 oculto
         const mapeamentoCampos = [
-            { origem: 'ref_1', destino: 'ref_2' },
-            { origem: 'pecas_1', destino: 'pecas_2' },
-            { origem: 'quantidade_1', destino: 'quantidade_2' },
-            { origem: 'data_1', destino: 'data_2' },
-            { origem: 'responsavel_1', destino: 'responsavel_2' },
-            { origem: 'motivo_1', destino: 'motivo_2' },
-            { origem: 'observacoes_1', destino: 'observacoes_2' }
+            { origen: 'ref_1', destino: 'ref_2' },
+            { origen: 'pecas_1', destino: 'pecas_2' },
+            { origen: 'quantidade_1', destino: 'quantidade_2' },
+            { origen: 'data_1', destino: 'data_2' },
+            { origen: 'responsavel_1', destino: 'responsavel_2' },
+            { origen: 'motivo_1', destino: 'motivo_2' },
+            { origen: 'observacoes_1', destino: 'observacoes_2' }
         ];
 
         mapeamentoCampos.forEach(par => {
-            const elOrigem = document.getElementById(par.origem);
+            const elOrigem = document.getElementById(par.origen);
             const elDestino = document.getElementById(par.destino);
             elOrigem.addEventListener('input', () => {
                 elDestino.value = elOrigem.value;
-                if(par.origem === 'motivo_1' || par.origem === 'observacoes_1') {
+                if(par.origen === 'motivo_1' || par.origen === 'observacoes_1') {
                     elDestino.style.fontSize = elOrigem.style.fontSize;
                 }
             });
@@ -182,19 +181,9 @@
                 store.clear();
 
                 dados.forEach(item => {
-                    let referencia = "";
-                    let peca = "";
-
-                    for (let chave in item) {
-                        let chaveLimpa = chave.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                        
-                        if (chaveLimpa === "ref" || chaveLimpa === "referencia") {
-                            referencia = item[chave];
-                        }
-                        if (chaveLimpa.includes("peca") || chaveLimpa.includes("nome")) {
-                            peca = item[chave];
-                        }
-                    }
+                    // Mapeamento direto com base nas chaves exatas enviadas pelo Apps Script
+                    let referencia = item.referencia;
+                    let peca = item.nomePeca;
                     
                     if (referencia) {
                         store.put({ 
@@ -290,9 +279,8 @@
             document.getElementById('data_2').value = dFmt;
         });
         
-        // Ajuste inteligente de caixas de texto nos dois blocos simultaneamente
+        // Ajuste inteligente adaptativo do tamanho da fonte para quebras de linha
         ['motivo_1', 'observacoes_1'].forEach(idOrigem => {
-            const suf = idOrigem.split('_')[1];
             const base = idOrigem.split('_')[0];
             const elOrigem = document.getElementById(idOrigem);
             const elDestino = document.getElementById(`${base}_2`);
@@ -300,7 +288,9 @@
             elOrigem.addEventListener('input', function() {
                 let fontSize = 24;
                 this.style.fontSize = fontSize + 'px';
-                while (this.scrollHeight > this.offsetHeight && fontSize > 10) {
+                
+                // Reduz dinamicamente a fonte se o conteúdo exceder a altura padrão do elemento
+                while (this.scrollHeight > 45 && fontSize > 11) {
                     fontSize--;
                     this.style.fontSize = fontSize + 'px';
                 }
@@ -314,7 +304,7 @@
                     el.value = 'SQF';
                 } else {
                     el.value = '';
-                    if(el.id.startsWith('motivo_')) el.style.fontSize = '24px';
+                    if(el.id.startsWith('motivo_') || el.id.startsWith('observacoes_')) el.style.fontSize = '24px';
                 }
             });
             listSugestoes.innerHTML = "";
