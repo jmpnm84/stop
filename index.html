@@ -225,32 +225,38 @@
             font-weight: bold;
         }
         
-        /* Print Styles */
+        /* Print Styles - CORRIGIDO PARA EVITAR 2ª PÁGINA */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 5mm;
+                margin: 0; /* Zerado para controlo total via CSS */
             }
             body {
                 background-color: #ffffff;
-                padding: 0;
+                padding: 5mm !important; /* Margem de segurança */
+                margin: 0 !important;
                 display: block;
-                overflow-x: visible;
+                overflow: hidden !important; /* Corta quebras falsas */
+                height: 100%;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .print-page {
                 display: flex !important;
                 gap: 8mm;
                 align-items: flex-start;
+                justify-content: center;
+                page-break-inside: avoid;
+                break-inside: avoid;
             }
             .a5-container {
                 box-shadow: none;
+                box-sizing: border-box !important;
                 width: 14cm !important;
-                height: 19.5cm !important;
                 max-width: 14cm !important;
+                height: 18.5cm !important; /* Reduzido 1cm para folga no Android */
                 border: 8px solid #ffdc00 !important;
-                padding: 12mm 6mm;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+                padding: 10mm 5mm !important; /* Ligeiramente reduzido */
             }
             .clone-block {
                 display: flex !important;
@@ -258,11 +264,11 @@
             .actions {
                 display: none;
             }
-            .header { margin-bottom: 6mm; }
-            .stop-box { height: 6cm; margin-bottom: 6mm; }
-            .form-group { margin-bottom: 7mm; }
-            .form-row { margin-bottom: 7mm; }
-            .form-block { margin-bottom: 6mm; }
+            .header { margin-bottom: 5mm; }
+            .stop-box { height: 5.2cm; margin-bottom: 5mm; }
+            .form-group { margin-bottom: 6mm; }
+            .form-row { margin-bottom: 6mm; }
+            .form-block { margin-bottom: 5mm; }
         }
     </style>
 </head>
@@ -358,7 +364,6 @@
     </div>
 
     <script>
-        // Registo PWA via Data URI para contornar restrições de ficheiro único
         if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
             const swCode = `
                 const CACHE_NAME = 'trigo-stop-cache-v1';
@@ -372,10 +377,7 @@
                     );
                 });
             `;
-            
-            // Injeção via base64 data URI (Mais aceite pelo Chrome para Single File)
             const swUrl = 'data:application/javascript;base64,' + btoa(swCode);
-            
             navigator.serviceWorker.register(swUrl, { scope: '/' })
                 .then(() => console.log('PWA Single-File configurado com sucesso.'))
                 .catch(err => console.log('Aviso PWA:', err));
@@ -386,7 +388,6 @@
         function formatarData(input) {
             let v = input.value.replace(/\D/g, ''); 
             if (v.length > 8) v = v.substring(0, 8);
-            
             if (v.length > 4) {
                 v = v.replace(/^(\d{2})(\d{2})(\d{4})$/, '$1/$2/$3');
             } else if (v.length > 2) {
@@ -398,21 +399,17 @@
         window.addEventListener('load', () => {
             baseFields.forEach(fieldId => {
                 const savedValue = localStorage.getItem(fieldId);
-                
                 [1, 2].forEach(num => {
                     const el = document.getElementById(`${fieldId}_${num}`);
                     if (savedValue) el.value = savedValue;
                     
                     el.addEventListener('input', (e) => {
                         let val = e.target.value;
-                        
                         if (fieldId === 'data') {
                             val = formatarData(e.target);
                             e.target.value = val;
                         }
-
                         localStorage.setItem(fieldId, val);
-                        
                         const otherNum = num === 1 ? 2 : 1;
                         const otherEl = document.getElementById(`${fieldId}_${otherNum}`);
                         if (otherEl) otherEl.value = val;
@@ -427,7 +424,6 @@
                 const mm = String(hoje.getMonth() + 1).padStart(2, '0');
                 const aaaa = hoje.getFullYear();
                 const dataFormatada = `${dd}/${mm}/${aaaa}`;
-                
                 document.getElementById('data_1').value = dataFormatada;
                 document.getElementById('data_2').value = dataFormatada;
                 localStorage.setItem('data', dataFormatada);
@@ -446,7 +442,6 @@
                 const mm = String(hoje.getMonth() + 1).padStart(2, '0');
                 const aaaa = hoje.getFullYear();
                 const dataFormatada = `${dd}/${mm}/${aaaa}`;
-                
                 document.getElementById('data_1').value = dataFormatada;
                 document.getElementById('data_2').value = dataFormatada;
                 localStorage.setItem('data', dataFormatada);
