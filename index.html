@@ -43,7 +43,9 @@
 
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
         .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
-        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #d61c1c; height: 45px; display: flex; align-items: center; justify-content: center; }
+        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; height: 45px; display: flex; align-items: center; justify-content: center; }
+        .motivo-color { color: #d61c1c; }
+        .obs-color { color: #000000; }
 
         @media print {
             @page { size: landscape; margin: 0; }
@@ -51,6 +53,8 @@
             .actions { display: none !important; }
             .a5-container { border: 7px solid #ffdc00 !important; }
             #bloco1, #bloco2 { display: flex !important; }
+            /* Esconde texto placeholder na impressão */
+            input[placeholder="DD/MM/AAAA"] { color: transparent !important; }
         }
     </style>
 </head>
@@ -62,6 +66,7 @@
     </div>
 
     <div class="print-page">
+        <!-- Bloco 1 -->
         <div class="a5-container" id="bloco1">
             <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" class="logo-image"></div>
             <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
@@ -75,13 +80,14 @@
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_1" class="form-input"></div>
             <div class="field-row">
                 <label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input" style="width: 80px; flex-grow:0;">
-                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_1" class="form-input" maxlength="10" placeholder="DD/MM/AAAA">
+                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA">
             </div>
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input" value="SQF"></div>
-            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea"></textarea></div>
-            <div class="form-group-block"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea motivo-color"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea obs-color"></textarea></div>
         </div>
 
+        <!-- Bloco 2 -->
         <div class="a5-container" id="bloco2">
             <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" class="logo-image"></div>
             <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
@@ -89,11 +95,11 @@
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_2" class="form-input"></div>
             <div class="field-row">
                 <label class="form-label">Qtd:</label><input type="text" id="quantidade_2" class="form-input" style="width: 80px; flex-grow:0;">
-                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_2" class="form-input" maxlength="10">
+                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_2" class="form-input">
             </div>
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_2" class="form-input" value="SQF"></div>
-            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_2" class="form-textarea"></textarea></div>
-            <div class="form-group-block"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_2" class="form-textarea motivo-color"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea obs-color"></textarea></div>
         </div>
     </div>
 
@@ -102,19 +108,20 @@
         const DB_NAME = "TrigoStopDB";
         let db;
 
-        // Formatação de Data e Ajuste de fonte
+        // Lógica de Data
         document.querySelectorAll('input[id^="data"]').forEach(el => {
             el.addEventListener('input', function(e) {
                 let v = this.value.replace(/\D/g, '');
                 if (v.length > 2) v = v.substring(0,2) + '/' + v.substring(2);
                 if (v.length > 5) v = v.substring(0,5) + '/' + v.substring(5,9);
-                this.value = v;
-                // Espelhar pro segundo bloco
-                const targetId = this.id.replace('_1', '_2');
-                if(document.getElementById(targetId)) document.getElementById(targetId).value = v;
+                
+                // Atualiza o valor real
+                document.getElementById('data_1').value = v;
+                document.getElementById('data_2').value = v;
             });
         });
 
+        // Lógica de Redimensionamento Texto
         document.querySelectorAll('textarea').forEach(el => {
             el.addEventListener('input', function() {
                 this.style.fontSize = "24px";
@@ -126,7 +133,6 @@
             });
         });
 
-        // IndexedDB e Lógica anterior
         const request = indexedDB.open(DB_NAME, 1);
         request.onupgradeneeded = e => e.target.result.createObjectStore("referencias", { keyPath: "ref" });
         request.onsuccess = e => db = e.target.result;
@@ -182,7 +188,10 @@
         });
 
         function clearForm() {
-            document.querySelectorAll('input, textarea').forEach(el => el.value = el.id.includes('responsavel') ? 'SQF' : '');
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if(el.id.includes('responsavel')) el.value = 'SQF';
+                else el.value = '';
+            });
             listSugestoes.style.display = 'none';
         }
     </script>
