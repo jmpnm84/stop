@@ -13,7 +13,9 @@
     <meta name="theme-color" content="#ffdc00">
 
     <style>
-        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+        /* Adicionado para forçar cores de fundo na impressão */
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; font-family: Arial, sans-serif; }
+        
         body { margin: 0; padding: 15px 10px; background-color: #f0f0f0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; width: 100%; overflow-x: hidden; }
         
         .actions { margin-bottom: 20px; display: flex; gap: 10px; width: 100%; max-width: 14cm; }
@@ -24,12 +26,11 @@
         .print-page { display: flex; gap: 10mm; justify-content: center; align-items: center; width: 100%; }
         .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
         
-        #bloco2 { display: none; }
         .header { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 6mm; }
         .logo-image { height: 42px; max-width: 100%; object-fit: contain; }
 
         .stop-box { border: 2px dashed #333333; padding: 15px; text-align: center; margin: 0 auto 8mm auto; width: 100%; max-width: 9.5cm; height: 5.2cm; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .stop-sign { width: 75px; height: 75px; background-color: #d61c1c; /* Background changed to red */ position: relative; margin: 0 auto 10px auto; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); display: flex; justify-content: center; align-items: center; border: 3px solid #ffffff; outline: 2px solid #7f7f7f; /* Kept gray outline for definition */ }
+        .stop-sign { width: 75px; height: 75px; background-color: #d61c1c; position: relative; margin: 0 auto 10px auto; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); display: flex; justify-content: center; align-items: center; border: 3px solid #ffffff; outline: 2px solid #7f7f7f; }
         .stop-text { color: #ffffff; font-size: 26px; font-weight: bold; }
         .nao-usar { color: #d61c1c; font-size: 22px; font-weight: bold; margin: 5px 0 0 0; }
 
@@ -53,8 +54,6 @@
             html, body { background-color: #ffffff; padding: 0; }
             .actions { display: none !important; }
             .a5-container { border: 7px solid #ffdc00 !important; }
-            #bloco1, #bloco2 { display: flex !important; }
-            input[placeholder="______/______/____________"] { color: transparent !important; }
         }
     </style>
 </head>
@@ -102,6 +101,7 @@
     </div>
 
     <script>
+        // ... (seu JavaScript permanece igual)
         const API_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
         const DB_NAME = "TrigoStopDB";
         let db;
@@ -116,7 +116,6 @@
             });
         });
 
-        // Lógica de Redimensionamento Texto (apenas para Motivo)
         document.querySelectorAll('textarea:not(.form-textarea-obs)').forEach(el => {
             el.addEventListener('input', function() {
                 this.style.fontSize = "24px";
