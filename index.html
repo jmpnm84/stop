@@ -13,9 +13,7 @@
     <meta name="theme-color" content="#ffdc00">
 
     <style>
-        /* Adicionado para forçar cores de fundo na impressão */
-        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; font-family: Arial, sans-serif; }
-        
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
         body { margin: 0; padding: 15px 10px; background-color: #f0f0f0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; width: 100%; overflow-x: hidden; }
         
         .actions { margin-bottom: 20px; display: flex; gap: 10px; width: 100%; max-width: 14cm; }
@@ -26,6 +24,7 @@
         .print-page { display: flex; gap: 10mm; justify-content: center; align-items: center; width: 100%; }
         .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
         
+        #bloco2 { display: none; }
         .header { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 6mm; }
         .logo-image { height: 42px; max-width: 100%; object-fit: contain; }
 
@@ -51,9 +50,12 @@
 
         @media print {
             @page { size: landscape; margin: 0; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             html, body { background-color: #ffffff; padding: 0; }
             .actions { display: none !important; }
             .a5-container { border: 7px solid #ffdc00 !important; }
+            #bloco1, #bloco2 { display: flex !important; }
+            input[placeholder="___/___/______"] { color: transparent !important; }
         }
     </style>
 </head>
@@ -101,7 +103,6 @@
     </div>
 
     <script>
-        // ... (seu JavaScript permanece igual)
         const API_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
         const DB_NAME = "TrigoStopDB";
         let db;
