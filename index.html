@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.4.7</title>
+    <title>Trigo - STOP v3.4.6</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -104,7 +104,6 @@
     </div>
 
     <script>
-        // Registrar Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW falhou:', err));
@@ -128,7 +127,14 @@
                 const tx = db.transaction("referencias", "readwrite");
                 const store = tx.objectStore("referencias");
                 store.clear();
-                data.forEach(item => store.put({ ref: String(item.ref || item[0]), peca: String(item.peca || item[1] || "") }));
+                
+                // Mapeamento correto: ajustado para "referencia" e "nome_da_peca"
+                data.forEach(item => {
+                    store.put({ 
+                        ref: String(item.referencia || ""), 
+                        peca: String(item.nome_da_peca || "") 
+                    });
+                });
                 alert("Dados sincronizados com sucesso!");
             } catch (e) { alert("Erro na sincronização: " + e.message); }
             btn.disabled = false; btn.innerText = "Sincronizar";
