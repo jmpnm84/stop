@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.3.0</title>
+    <title>Trigo - STOP v3.3.1</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,10 +34,8 @@
         .form-label { font-size: 18px; font-weight: bold; color: #000000; margin-right: 8px; white-space: nowrap; padding-bottom: 2px; }
         .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align: center; }
         
-        /* Ajuste para alinhar exatamente como na imagem */
         .form-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; }
         .form-row .field-row { margin-bottom: 0; }
-        /* Removemos as classes field-qtd e field-data e usamos flex direto */
         
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
         .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
@@ -69,10 +67,10 @@
             
             <div class="form-row">
                 <div class="field-row" style="width: auto; margin-right: 20px;"><label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input" style="width: 100px;"></div>
-                <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA" style="width: 180px;"></div>
+                <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_1" class="form-input" style="width: 180px;"></div>
             </div>
             
-            <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input"></div>
+            <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input" value="SQF"></div>
             <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
             <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
         </div>
@@ -87,6 +85,16 @@
             return v;
         }
         document.getElementById('data_1').addEventListener('input', (e) => { e.target.value = formatarData(e.target.value); });
+        
+        function clearForm() {
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.id === 'responsavel_1') {
+                    el.value = 'SQF';
+                } else {
+                    el.value = '';
+                }
+            });
+        }
     </script>
 </body>
 </html>
