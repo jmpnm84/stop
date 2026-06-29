@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.4.4</title>
+    <title>Trigo - STOP v3.4.5</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -165,7 +165,7 @@
             });
         });
 
-        // --- FUNÇÃO PARA SINCRONIZAR COM O GOOGLE DRIVE ---
+        // --- FUNÇÃO PARA SINCRONIZAR ULTRA-SEGURA (IMUNE A ERROS DE CHAVE) ---
         async function importarDoDrive() {
             const btn = document.getElementById('btnSync');
             btn.disabled = true;
@@ -181,12 +181,27 @@
                 store.clear();
 
                 dados.forEach(item => {
-                    // Mapeamento direto com base nas chaves exatas geradas pelo Apps Script
-                    let referencia = item.referencia;
-                    let peca = item.nomePeca;
+                    let referencia = "";
+                    let peca = "";
+
+                    // Analisa de forma flexível as chaves do objeto enviado
+                    let chaves = Object.keys(item);
                     
-                    // Validação de segurança: Só insere se a referência for válida e não estiver vazia
-                    if (referencia && String(referencia).trim() !== "") {
+                    chaves.forEach((chave, index) => {
+                        let chaveLimpa = chave.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+                        
+                        // Captura por nome esperado ou pela primeira posição (Coluna 1)
+                        if (chaveLimpa === "referencia" || chaveLimpa === "ref" || index === 0) {
+                            if (!referencia) referencia = item[chave];
+                        }
+                        // Captura por nome esperado ou pela segunda posição (Coluna 2)
+                        if (chaveLimpa.includes("peca") || chaveLimpa.includes("nome") || index === 1) {
+                            if (!peca) peca = item[chave];
+                        }
+                    });
+                    
+                    // Validação crítica: Só grava se a referência extraída for um texto real e válido
+                    if (referencia && String(referencia).trim() !== "" && String(referencia).trim() !== "undefined") {
                         store.put({ 
                             ref: String(referencia).trim(), 
                             peca: peca ? String(peca).trim() : "" 
@@ -264,7 +279,7 @@
             }
         });
 
-        // --- FORMATAR DATAS E FONTES ---
+        // --- FORMATAR DATAS E FONTES ADAPTATIVAS ---
         function formatarData(value) {
             let v = value.replace(/\D/g, ''); 
             if (v.length > 8) v = v.substring(0, 8);
@@ -279,7 +294,6 @@
             document.getElementById('data_2').value = dFmt;
         });
         
-        // Ajuste inteligente adaptativo do tamanho da fonte contra quebras de linha
         ['motivo_1', 'observacoes_1'].forEach(idOrigem => {
             const base = idOrigem.split('_')[0];
             const elOrigem = document.getElementById(idOrigem);
@@ -289,7 +303,6 @@
                 let fontSize = 24;
                 this.style.fontSize = fontSize + 'px';
                 
-                // Diminui gradativamente se o texto estourar os 45px de altura da caixa
                 while (this.scrollHeight > 45 && fontSize > 11) {
                     fontSize--;
                     this.style.fontSize = fontSize + 'px';
