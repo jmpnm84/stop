@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.1.1</title>
+    <title>Trigo - STOP v3.2.1</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -71,7 +71,7 @@
             height: 19.5cm;
             background-color: #ffffff;
             border: 8px solid #ffdc00;
-            padding: 8mm 5mm;
+            padding: 8mm 7mm;
             position: relative;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             display: flex;
@@ -84,33 +84,33 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            margin-bottom: 4mm;
+            margin-bottom: 6mm;
         }
         .logo-image {
-            height: 40px;
+            height: 42px;
             max-width: 100%;
             object-fit: contain;
         }
 
         .stop-box {
             border: 2px dashed #333333;
-            padding: 10px;
+            padding: 15px;
             text-align: center;
-            margin: 0 auto 5mm auto;
+            margin: 0 auto 8mm auto;
             width: 100%;
-            max-width: 9cm;
-            height: 5.5cm;
+            max-width: 9.5cm;
+            height: 5.2cm;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
         .stop-sign {
-            width: 65px;
-            height: 65px;
+            width: 75px;
+            height: 75px;
             background-color: #7f7f7f;
             position: relative;
-            margin: 0 auto 6px auto;
+            margin: 0 auto 10px auto;
             clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
             display: flex;
             justify-content: center;
@@ -121,92 +121,93 @@
         }
         .stop-text {
             color: #ffffff;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
             letter-spacing: 1px;
         }
         .nao-usar {
             color: #d61c1c;
-            font-size: 16px;
+            font-size: 19px;
             font-weight: bold;
             letter-spacing: 1px;
-            margin: 3px 0 0 0;
+            margin: 5px 0 0 0;
         }
 
-        .form-group {
+        .form-group-inline {
             display: flex;
             align-items: flex-end;
-            margin-bottom: 5mm;
+            margin-bottom: 4.5mm;
             width: 100%;
         }
-        .form-label {
-            font-size: 13px;
+        .form-group-inline .form-label {
+            font-size: 14px;
             font-weight: normal;
             color: #000000;
             white-space: nowrap;
-            margin-right: 8px;
-            padding-bottom: 2px;
+            margin-right: 6px;
+            margin-bottom: 2px;
         }
-        .form-input {
+        .form-group-inline .form-input {
             flex-grow: 1;
             border: none;
             border-bottom: 1px solid #000000;
-            font-size: 13px;
+            font-size: 14px;
             padding: 2px 5px;
             background: transparent;
             outline: none;
             color: #333333;
-            text-align: center;
-            min-width: 0;
-        }
-        .form-input:focus { background-color: #fffde7; }
-        
-        #data_1, #data_2 {
-            text-align: center;
-            max-width: 95px; 
-            flex-grow: 1;
         }
         
         .form-row {
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin-bottom: 5mm;
-            gap: 10px;
+            margin-bottom: 4.5mm;
+            gap: 15px;
         }
-        .form-row .form-group { margin-bottom: 0; }
-        .form-row .form-group:first-child { width: 55%; }
-        .form-row .form-group:last-child {
-            width: 45%;
-            justify-content: flex-start;
+        .form-row .form-group-inline {
+            margin-bottom: 0;
+        }
+        .form-row .form-group-inline:first-child { width: 55%; }
+        .form-row .form-group-inline:last-child { width: 45%; }
+        
+        #data_1, #data_2 {
+            text-align: left;
         }
 
-        .form-block {
+        .form-group-block {
             display: flex;
             flex-direction: column;
-            margin-bottom: 4mm;
+            margin-bottom: 4.5mm;
+            width: 100%;
         }
-        .form-block.expandable { margin-bottom: 0; }
-        .form-block .form-label { margin-bottom: 4px; }
-        .form-textarea {
+        .form-group-block .form-label {
+            font-size: 14px;
+            font-weight: normal;
+            color: #000000;
+            margin-bottom: 6px;
+        }
+        .form-group-block .form-textarea {
             width: 100%;
             border: none;
             border-bottom: 1px solid #000000;
-            font-size: 13px;
-            line-height: 1.5;
+            font-size: 14px;
+            line-height: 1.4;
             resize: none;
             outline: none;
             background: transparent;
-            padding: 2px 5px;
-            text-align: center;
+            padding: 2px 0;
         }
 
-        /* AJUSTE INTELIGENTE DO MOTIVO: Letra grande com redução dinâmica */
         #motivo_1, #motivo_2 {
             color: #d61c1c;
             font-weight: bold;
-            font-size: clamp(14px, 3.5vw, 22px); 
-            line-height: 1.3;
+            font-size: clamp(14px, 3.5vw, 22px);
+        }
+        
+        .observacoes-wrapper {
+            margin-top: auto; 
+            margin-bottom: 5mm;
         }
         
         @media print {
@@ -247,20 +248,20 @@
                 height: 190mm !important;      
                 max-height: 190mm !important;
                 border: 7px solid #ffdc00 !important;
-                padding: 4mm 4mm !important;
+                padding: 5mm 5mm !important;
                 margin: 0 3mm !important; 
                 vertical-align: top !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
             .clone-block { display: flex !important; }
-            .header { margin-bottom: 2mm; }
-            .stop-box { height: 4.2cm; margin-bottom: 2mm; }
-            .form-group { margin-bottom: 2.5mm; }
-            .form-row { margin-bottom: 2.5mm; }
-            .form-block { margin-bottom: 2mm; }
+            .header { margin-bottom: 3mm; }
+            .stop-box { height: 4.2cm; margin-bottom: 4mm; }
+            .form-group-inline { margin-bottom: 3mm; }
+            .form-row { margin-bottom: 3mm; }
+            .form-group-block { margin-bottom: 3mm; }
+            .observacoes-wrapper { margin-bottom: 2mm; }
 
-            /* Na impressão o clamp adapta-se à largura física da folha */
             #motivo_1, #motivo_2 {
                 font-size: clamp(13px, 4.2vw, 20px) !important;
             }
@@ -278,6 +279,7 @@
     <datalist id="listaReferencias"></datalist>
 
     <div class="print-page">
+        <!-- BLOCO 1 -->
         <div class="a5-container">
             <div class="header">
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
@@ -286,40 +288,45 @@
                 <div class="stop-sign"><span class="stop-text">STOP</span></div>
                 <div class="nao-usar">NÃO USAR</div>
             </div>
-            <div class="form-group">
+            
+            <div class="form-group-inline">
                 <label class="form-label" for="ref_1">Ref.:</label>
-                <input type="text" id="ref_1" class="form-input" list="listaReferencias" autocomplete="off" placeholder="Digite p/ pesquisar...">
+                <input type="text" id="ref_1" class="form-input" list="listaReferencias" autocomplete="off" placeholder="Digite para pesquisar...">
             </div>
-            <div class="form-group">
+            
+            <div class="form-group-inline">
                 <label class="form-label" for="pecas_1">Peças:</label>
                 <input type="text" id="pecas_1" class="form-input">
             </div>
-            <div class="print-row-container" style="display: contents;">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label" for="quantidade_1">Quantidade:</label>
-                        <input type="text" id="quantidade_1" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="data_1">Data:</label>
-                        <input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
-                    </div>
+            
+            <div class="form-row">
+                <div class="form-group-inline">
+                    <label class="form-label" for="quantidade_1">Quantidade:</label>
+                    <input type="text" id="quantidade_1" class="form-input">
+                </div>
+                <div class="form-group-inline">
+                    <label class="form-label" for="data_1">Data:</label>
+                    <input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
                 </div>
             </div>
-            <div class="form-group">
+            
+            <div class="form-group-inline">
                 <label class="form-label" for="responsavel_1">Responsável:</label>
                 <input type="text" id="responsavel_1" class="form-input">
             </div>
-            <div class="form-block">
+            
+            <div class="form-group-block">
                 <label class="form-label" for="motivo_1">Motivo:</label>
-                <textarea id="motivo_1" class="form-textarea" style="min-height: 40px;"></textarea>
+                <textarea id="motivo_1" class="form-textarea" style="min-height: 45px;"></textarea>
             </div>
-            <div class="form-block expandable">
+            
+            <div class="form-group-block observacoes-wrapper">
                 <label class="form-label" for="observacoes_1">Observações:</label>
-                <textarea id="observacoes_1" class="form-textarea" style="min-height: 40px; height: 40px;"></textarea>
+                <textarea id="observacoes_1" class="form-textarea" style="min-height: 45px;"></textarea>
             </div>
         </div>
 
+        <!-- BLOCO 2 (CLONE IMPRESSÃO) -->
         <div class="a5-container clone-block">
             <div class="header">
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
@@ -328,37 +335,41 @@
                 <div class="stop-sign"><span class="stop-text">STOP</span></div>
                 <div class="nao-usar">NÃO USAR</div>
             </div>
-            <div class="form-group">
+            
+            <div class="form-group-inline">
                 <label class="form-label" for="ref_2">Ref.:</label>
-                <input type="text" id="ref_2" class="form-input" list="listaReferencias" autocomplete="off" placeholder="Digite p/ pesquisar...">
+                <input type="text" id="ref_2" class="form-input" list="listaReferencias" autocomplete="off" placeholder="Digite para pesquisar...">
             </div>
-            <div class="form-group">
+            
+            <div class="form-group-inline">
                 <label class="form-label" for="pecas_2">Peças:</label>
                 <input type="text" id="pecas_2" class="form-input">
             </div>
-            <div class="print-row-container" style="display: contents;">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label" for="quantidade_2">Quantidade:</label>
-                        <input type="text" id="quantidade_2" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="data_2">Data:</label>
-                        <input type="text" id="data_2" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
-                    </div>
+            
+            <div class="form-row">
+                <div class="form-group-inline">
+                    <label class="form-label" for="quantidade_2">Quantidade:</label>
+                    <input type="text" id="quantidade_2" class="form-input">
+                </div>
+                <div class="form-group-inline">
+                    <label class="form-label" for="data_2">Data:</label>
+                    <input type="text" id="data_2" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
                 </div>
             </div>
-            <div class="form-group">
+            
+            <div class="form-group-inline">
                 <label class="form-label" for="responsavel_2">Responsável:</label>
                 <input type="text" id="responsavel_2" class="form-input">
             </div>
-            <div class="form-block">
+            
+            <div class="form-group-block">
                 <label class="form-label" for="motivo_2">Motivo:</label>
-                <textarea id="motivo_2" class="form-textarea" style="min-height: 40px;"></textarea>
+                <textarea id="motivo_2" class="form-textarea" style="min-height: 45px;"></textarea>
             </div>
-            <div class="form-block expandable">
+            
+            <div class="form-group-block observacoes-wrapper">
                 <label class="form-label" for="observacoes_2">Observações:</label>
-                <textarea id="observacoes_2" class="form-textarea" style="min-height: 40px; height: 40px;"></textarea>
+                <textarea id="observacoes_2" class="form-textarea" style="min-height: 45px;"></textarea>
             </div>
         </div>
     </div>
@@ -470,6 +481,7 @@
                 });
             });
             
+            // Pré-preenchimento automático da Data se estiver vazia
             const date1 = document.getElementById('data_1');
             if (!date1.value) {
                 const hoje = new Date();
@@ -480,6 +492,14 @@
                 document.getElementById('data_1').value = dataFormatada;
                 document.getElementById('data_2').value = dataFormatada;
                 localStorage.setItem('data', dataFormatada);
+            }
+
+            // PRÉ-PREENCHIMENTO DO RESPONSÁVEL COM "SQF"
+            const resp1 = document.getElementById('responsavel_1');
+            if (!resp1.value) {
+                document.getElementById('responsavel_1').value = "SQF";
+                document.getElementById('responsavel_2').value = "SQF";
+                localStorage.setItem('responsavel', "SQF");
             }
         });
 
@@ -530,6 +550,8 @@
                     document.getElementById(`${fieldId}_1`).value = '';
                     document.getElementById(`${fieldId}_2`).value = '';
                 });
+                
+                // Repõe a data atual após a limpeza
                 const hoje = new Date();
                 const dd = String(hoje.getDate()).padStart(2, '0');
                 const mm = String(hoje.getMonth() + 1).padStart(2, '0');
@@ -538,6 +560,11 @@
                 document.getElementById('data_1').value = dataFormatada;
                 document.getElementById('data_2').value = dataFormatada;
                 localStorage.setItem('data', dataFormatada);
+
+                // Repõe o SQF por defeito após a limpeza
+                document.getElementById('responsavel_1').value = "SQF";
+                document.getElementById('responsavel_2').value = "SQF";
+                localStorage.setItem('responsavel', "SQF");
             }
         }
     </script>
