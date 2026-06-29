@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.3.2</title>
+    <title>Trigo - STOP v3.3.3</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,6 +18,7 @@
         .btn { background-color: #034263; color: white; border: none; padding: 14px 10px; font-size: 13px; border-radius: 6px; cursor: pointer; font-weight: bold; flex: 1; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.2s; }
         .btn-clear { background-color: #d61c1c; }
         .btn-sync { background-color: #2196F3; }
+        .btn:disabled { background-color: #cccccc; cursor: not-allowed; }
 
         .print-page { display: flex; gap: 10mm; justify-content: center; align-items: center; width: 100%; }
         .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
@@ -30,10 +31,16 @@
         .stop-text { color: #ffffff; font-size: 26px; font-weight: bold; }
         .nao-usar { color: #d61c1c; font-size: 22px; font-weight: bold; margin: 5px 0 0 0; }
 
-        .field-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; }
+        .autocomplete-container { position: relative; flex-grow: 1; display: flex; }
+
+        .field-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; position: relative; }
         .form-label { font-size: 18px; font-weight: bold; color: #000000; margin-right: 8px; white-space: nowrap; padding-bottom: 2px; }
-        .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align: center; }
+        .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align: center; width: 100%; }
         
+        .autocomplete-suggestions { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto; z-index: 9999; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 2px; list-style: none; padding: 0; }
+        .autocomplete-suggestions li { padding: 10px; cursor: pointer; font-size: 16px; text-align: left; border-bottom: 1px solid #eee; color: #333; }
+        .autocomplete-suggestions li:hover { background-color: #ffdc00; color: #000; }
+
         .form-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; }
         .form-row .field-row { margin-bottom: 0; }
         
@@ -52,7 +59,7 @@
 <body>
     <div class="actions">
         <button class="btn btn-clear" onclick="clearForm()">Limpar</button>
-        <button class="btn btn-sync" onclick="importarDoDrive()">Sincronizar</button>
+        <button class="btn btn-sync" id="btnSync" onclick="importarDoDrive()">Sincronizar</button>
         <button class="btn" onclick="window.print()">Imprimir</button>
     </div>
 
@@ -61,7 +68,13 @@
             <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image"></div>
             <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
             
-            <div class="field-row"><label class="form-label">Ref.:</label><input type="text" id="ref_1" class="form-input"></div>
+            <div class="field-row">
+                <label class="form-label">Ref.:</label>
+                <div class="autocomplete-container">
+                    <input type="text" id="ref_1" class="form-input" autocomplete="off">
+                    <ul id="suggestions_list" class="autocomplete-suggestions" style="display: none;"></ul>
+                </div>
+            </div>
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_1" class="form-input"></div>
             
             <div class="form-row">
@@ -76,6 +89,130 @@
     </div>
 
     <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
+        const DB_NAME = "TrigoStopDB";
+        const DB_VERSION = 1;
+        const STORE_NAME = "referencias";
+        let db;
+
+        // --- INICIALIZAÇÃO DO INDEXEDDB ---
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onerror = (event) => console.error("Erro ao abrir IndexedDB:", event);
+        request.onsuccess = (event) => { db = event.target.result; };
+        request.onupgradeneeded = (event) => {
+            const database = event.target.result;
+            if (!database.objectStoreNames.contains(STORE_NAME)) {
+                database.createObjectStore(STORE_NAME, { keyPath: "ref" });
+            }
+        };
+
+        // --- FUNÇÃO PARA SINCRONIZAR COM O GOOGLE DRIVE ---
+        async function importarDoDrive() {
+            const btn = document.getElementById('btnSync');
+            btn.disabled = true;
+            btn.innerText = "A sincronizar...";
+
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error("Falha na resposta da rede.");
+                const dados = await response.json();
+
+                const transaction = db.transaction([STORE_NAME], "readwrite");
+                const store = transaction.objectStore(STORE_NAME);
+                store.clear();
+
+                dados.forEach(item => {
+                    // Normaliza as chaves do objeto para evitar problemas com acentos ou maiúsculas
+                    let referencia = "";
+                    let peca = "";
+
+                    for (let chave in item) {
+                        let chaveLimpa = chave.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                        
+                        if (chaveLimpa === "ref" || chaveLimpa === "referencia") {
+                            referencia = item[chave];
+                        }
+                        // Procura por qualquer variação de "peca", "pecas", "nome de peca" ou "nome da peca"
+                        if (chaveLimpa.includes("peca") || chaveLimpa.includes("nome")) {
+                            peca = item[chave];
+                        }
+                    }
+                    
+                    if (referencia) {
+                        store.put({ 
+                            ref: String(referencia).trim(), 
+                            peca: peca ? String(peca).trim() : "" 
+                        });
+                    }
+                });
+
+                transaction.oncomplete = () => {
+                    alert("Dados sincronizados com sucesso!");
+                    btn.disabled = false;
+                    btn.innerText = "Sincronizar";
+                };
+            } catch (erro) {
+                console.error("Erro na sincronização:", erro);
+                alert("Erro ao sincronizar dados. Verifique o console ou a ligação.");
+                btn.disabled = false;
+                btn.innerText = "Sincronizar";
+            }
+        }
+
+        // --- SISTEMA DE AUTOCOMPLETE ---
+        const inputRef = document.getElementById('ref_1');
+        const inputPecas = document.getElementById('pecas_1');
+        const listSugestoes = document.getElementById('suggestions_list');
+
+        inputRef.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            listSugestoes.innerHTML = "";
+            
+            if (!query || !db) {
+                listSugestoes.style.display = "none";
+                return;
+            }
+
+            const transaction = db.transaction([STORE_NAME], "readonly");
+            const store = transaction.objectStore(STORE_NAME);
+            const cursorRequest = store.openCursor();
+            let correspondencias = 0;
+
+            cursorRequest.onsuccess = function(event) {
+                const cursor = event.target.result;
+                if (cursor) {
+                    const item = cursor.value;
+                    if (item.ref.toLowerCase().includes(query)) {
+                        const li = document.createElement('li');
+                        li.textContent = item.peca ? `${item.ref} - ${item.peca}` : item.ref;
+                        li.addEventListener('click', function() {
+                            inputRef.value = item.ref;
+                            inputPecas.value = item.peca; // Preenche o campo Peças aqui
+                            listSugestoes.style.display = "none";
+                        });
+                        listSugestoes.appendChild(li);
+                        correspondencias++;
+                    }
+                    if (correspondencias < 15) {
+                        cursor.continue();
+                    } else {
+                        listSugestoes.style.display = "block";
+                    }
+                } else if (correspondencias > 0) {
+                    listSugestoes.style.display = "block";
+                } else {
+                    listSugestoes.style.display = "none";
+                }
+            };
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target !== inputRef && e.target !== listSugestoes) {
+                listSugestoes.style.display = "none";
+            }
+        });
+
+        // --- OUTROS COMPORTAMENTOS ---
         function formatarData(value) {
             let v = value.replace(/\D/g, ''); 
             if (v.length > 8) v = v.substring(0, 8);
@@ -89,8 +226,6 @@
         motivo.addEventListener('input', function() {
             let fontSize = 24;
             this.style.fontSize = fontSize + 'px';
-            
-            // Reduz a fonte enquanto o texto exceder a altura da caixa
             while (this.scrollHeight > this.offsetHeight && fontSize > 10) {
                 fontSize--;
                 this.style.fontSize = fontSize + 'px';
@@ -106,6 +241,8 @@
                     if(el.id === 'motivo_1') el.style.fontSize = '24px';
                 }
             });
+            listSugestoes.innerHTML = "";
+            listSugestoes.style.display = "none";
         }
     </script>
 </body>
