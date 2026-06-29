@@ -1,7 +1,7 @@
 {
   "id": "trigo-stop-pwa",
-  "name": "Trigo Cartões STOP",
-  "short_name": "STOP",
+  "name": "Cartões STOP",
+  "short_name": "CARTÕES STOP",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
