@@ -3,88 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.3.0</title>
+    <title>Trigo - STOP v3.3.2</title>
     
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="theme-color" content="#ffdc00">
-
     <style>
         * { box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { margin: 0; padding: 15px 10px; background-color: #f0f0f0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; width: 100%; overflow-x: hidden; }
+        body { margin: 0; padding: 15px 10px; background-color: #f0f0f0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; width: 100%; }
         
-        .actions { margin-bottom: 20px; display: flex; gap: 10px; width: 100%; max-width: 14cm; }
-        .btn { background-color: #034263; color: white; border: none; padding: 14px 10px; font-size: 13px; border-radius: 6px; cursor: pointer; font-weight: bold; flex: 1; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.2s; }
-        .btn-clear { background-color: #d61c1c; }
-        .btn-sync { background-color: #2196F3; }
-
-        .print-page { display: flex; gap: 10mm; justify-content: center; align-items: center; width: 100%; }
-        .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
+        .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; display: flex; flex-direction: column; }
         
-        .header { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 6mm; }
-        .logo-image { height: 42px; max-width: 100%; object-fit: contain; }
-
-        .stop-box { border: 2px dashed #333333; padding: 15px; text-align: center; margin: 0 auto 8mm auto; width: 100%; max-width: 9.5cm; height: 5.2cm; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .stop-sign { width: 75px; height: 75px; background-color: #7f7f7f; position: relative; margin: 0 auto 10px auto; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); display: flex; justify-content: center; align-items: center; border: 3px solid #ffffff; outline: 2px solid #7f7f7f; }
-        .stop-text { color: #ffffff; font-size: 22px; font-weight: bold; }
-        .nao-usar { color: #d61c1c; font-size: 19px; font-weight: bold; margin: 5px 0 0 0; }
-
-        /* MUDANÇA: Separar label de input para tirar sublinhado do texto */
-        .field-row { display: flex; align-items: flex-end; margin-bottom: 4.5mm; width: 100%; }
-        .form-label { font-size: 14px; color: #000000; margin-right: 8px; white-space: nowrap; padding-bottom: 2px; }
-        .form-input { flex-grow: 1; border: none; border-bottom: 1px solid #000000; font-size: 14px; padding: 2px 5px; background: transparent; outline: none; color: #333333; text-align: center; }
+        /* Estilo visual com fonte maior e negrito */
+        .field-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; }
+        .form-label { font-size: 18px; font-weight: bold; color: #000000; margin-right: 10px; white-space: nowrap; }
+        .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; text-align: center; }
         
-        .form-row { display: flex; justify-content: space-between; width: 100%; margin-bottom: 4.5mm; gap: 10px; }
+        .form-row { display: flex; justify-content: space-between; width: 100%; margin-bottom: 5mm; gap: 15px; }
         .form-row .field-row { margin-bottom: 0; }
 
-        .form-group-block { display: flex; flex-direction: column; margin-bottom: 4.5mm; width: 100%; }
-        .form-textarea { width: 100%; border: none; border-bottom: 1px solid #000000; font-size: 14px; resize: none; outline: none; background: transparent; text-align: center; }
+        .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
+        .form-label-block { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; }
 
-        #motivo_1, #motivo_2 { color: #d61c1c; font-weight: bold; font-size: 22px; }
-        .observacoes-wrapper { margin-top: auto; margin-bottom: 5mm; }
+        .stop-box { border: 2px dashed #333333; padding: 10px; text-align: center; margin: 0 auto 5mm auto; width: 100%; max-width: 9.5cm; }
+        .stop-text { font-size: 26px; font-weight: bold; }
+        .nao-usar { font-size: 22px; font-weight: bold; color: #d61c1c; }
 
-        @media print {
-            .actions { display: none !important; }
-            .a5-container { border: 7px solid #ffdc00 !important; }
-        }
+        @media print { .actions { display: none !important; } }
     </style>
 </head>
 <body>
-    <div class="actions">
-        <button class="btn btn-clear" onclick="clearForm()">Limpar</button>
-        <button class="btn btn-sync" onclick="importarDoDrive()">Sincronizar</button>
-        <button class="btn" onclick="window.print()">Imprimir</button>
-    </div>
-
-    <div class="print-page">
-        <div class="a5-container" id="bloco1">
-            <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image"></div>
-            <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
-            
-            <div class="field-row"><label class="form-label">Ref.:</label><input type="text" id="ref_1" class="form-input"></div>
-            <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_1" class="form-input"></div>
-            
-            <div class="form-row">
-                <div class="field-row"><label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input"></div>
-                <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA"></div>
-            </div>
-            
-            <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input"></div>
-            <div class="form-group-block"><label class="form-label">Motivo:</label><textarea id="motivo_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
-            <div class="form-group-block observacoes-wrapper"><label class="form-label">Obs.:</label><textarea id="observacoes_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
+    <div class="a5-container">
+        <div class="stop-box">
+            <div class="stop-text">STOP</div>
+            <div class="nao-usar">NÃO USAR</div>
+        </div>
+        
+        <div class="field-row"><label class="form-label">Ref.:</label><input type="text" class="form-input"></div>
+        <div class="field-row"><label class="form-label">Peças:</label><input type="text" class="form-input"></div>
+        
+        <div class="form-row">
+            <div class="field-row"><label class="form-label">Qtd:</label><input type="text" class="form-input"></div>
+            <div class="field-row"><label class="form-label">Data:</label><input type="text" class="form-input" placeholder="DD/MM/AAAA"></div>
+        </div>
+        
+        <div class="field-row"><label class="form-label">Resp.:</label><input type="text" class="form-input"></div>
+        
+        <div class="form-group-block">
+            <label class="form-label-block">Motivo:</label>
+            <textarea class="form-textarea" style="min-height: 50px;"></textarea>
         </div>
     </div>
-
-    <script>
-        function formatarData(value) {
-            let v = value.replace(/\D/g, ''); 
-            if (v.length > 8) v = v.substring(0, 8);
-            if (v.length >= 5) return v.replace(/(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
-            else if (v.length > 2) return v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
-            return v;
-        }
-        document.getElementById('data_1').addEventListener('input', (e) => { e.target.value = formatarData(e.target.value); });
-    </script>
 </body>
 </html>
