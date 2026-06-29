@@ -219,24 +219,24 @@
             text-align: center;
         }
 
-        /* Nova regra para destacar o campo Motivo */
+        /* Destaque para o campo Motivo */
         #motivo_1, #motivo_2 {
             color: #d61c1c;
             font-weight: bold;
         }
         
-        /* Print Styles - CORRIGIDO PARA EVITAR 2ª PÁGINA */
+        /* Print Styles */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 0; /* Zerado para controlo total via CSS */
+                margin: 0;
             }
             body {
                 background-color: #ffffff;
-                padding: 5mm !important; /* Margem de segurança */
+                padding: 5mm !important;
                 margin: 0 !important;
                 display: block;
-                overflow: hidden !important; /* Corta quebras falsas */
+                overflow: hidden !important;
                 height: 100%;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
@@ -254,9 +254,9 @@
                 box-sizing: border-box !important;
                 width: 14cm !important;
                 max-width: 14cm !important;
-                height: 18.5cm !important; /* Reduzido 1cm para folga no Android */
+                height: 18.5cm !important;
                 border: 8px solid #ffdc00 !important;
-                padding: 10mm 5mm !important; /* Ligeiramente reduzido */
+                padding: 10mm 5mm !important;
             }
             .clone-block {
                 display: flex !important;
@@ -279,6 +279,8 @@
         <button class="btn" onclick="window.print()">Imprimir / Guardar PDF (A4 Paisagem)</button>
     </div>
 
+    <datalist id="listaReferencias"></datalist>
+
     <div class="print-page">
         
         <div class="a5-container">
@@ -291,7 +293,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Ref.:</label>
-                <input type="text" id="ref_1" class="form-input">
+                <input type="text" id="ref_1" class="form-input" list="listaReferencias" autocomplete="off" placeholder="Digite p/ pesquisar...">
             </div>
             <div class="form-group">
                 <label class="form-label">Peças:</label>
@@ -331,7 +333,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Ref.:</label>
-                <input type="text" id="ref_2" class="form-input">
+                <input type="text" id="ref_2" class="form-input" list="listaReferencias" autocomplete="off" placeholder="Digite p/ pesquisar...">
             </div>
             <div class="form-group">
                 <label class="form-label">Peças:</label>
@@ -364,17 +366,19 @@
     </div>
 
     <script>
+        // Memória global para o mapeamento Ref -> Nome da Peça
+        let mapaProdutos = [];
+        
+        // URL do seu Google Apps Script enviada no prompt
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
+
         if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
             const swCode = `
                 const CACHE_NAME = 'trigo-stop-cache-v1';
-                self.addEventListener('install', (e) => {
-                    self.skipWaiting();
-                });
+                self.addEventListener('install', (e) => { self.skipWaiting(); });
                 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
                 self.addEventListener('fetch', (e) => {
-                    e.respondWith(
-                        fetch(e.request).catch(() => new Response("Offline"))
-                    );
+                    e.respondWith(fetch(e.request).catch(() => new Response("Offline")));
                 });
             `;
             const swUrl = 'data:application/javascript;base64,' + btoa(swCode);
@@ -396,7 +400,27 @@
             return v;
         }
 
+        function verificarFiltroReferencia(valorDigitado) {
+            const correspondencia = mapaProdutos.find(p => p.referencia === valorDigitado);
+            if (correspondencia) {
+                document.getElementById('pecas_1').value = correspondencia.nomePeca;
+                document.getElementById('pecas_2').value = correspondencia.nomePeca;
+                localStorage.setItem('pecas', correspondencia.nomePeca);
+            }
+        }
+
         window.addEventListener('load', () => {
+            // Tenta o método nativo do Apps Script primeiro, caso esteja incorporado
+            if (typeof google !== 'undefined' && google.script) {
+                google.script.run
+                    .withSuccessHandler(carregarDatalist)
+                    .withFailureHandler(err => carregarDadosViaFetch())
+                    .obterDadosPlanilha();
+            } else {
+                // Fallback para quando roda fora do ambiente nativo (HTML Local ou Servidor Externo)
+                carregarDadosViaFetch();
+            }
+
             baseFields.forEach(fieldId => {
                 const savedValue = localStorage.getItem(fieldId);
                 [1, 2].forEach(num => {
@@ -409,10 +433,15 @@
                             val = formatarData(e.target);
                             e.target.value = val;
                         }
+                        
                         localStorage.setItem(fieldId, val);
                         const otherNum = num === 1 ? 2 : 1;
                         const otherEl = document.getElementById(`${fieldId}_${otherNum}`);
                         if (otherEl) otherEl.value = val;
+
+                        if (fieldId === 'ref') {
+                            verificarFiltroReferencia(val);
+                        }
                     });
                 });
             });
@@ -429,6 +458,28 @@
                 localStorage.setItem('data', dataFormatada);
             }
         });
+
+        // Função de busca alternativa via Fetch API utilizando o link fornecido
+        function carregarDadosViaFetch() {
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(dados => carregarDatalist(dados))
+                .catch(err => console.log("Erro ao carregar dados via Fetch: ", err));
+        }
+
+        // Alimenta o elemento Datalist com as referências obtidas
+        function carregarDatalist(dados) {
+            mapaProdutos = dados;
+            const dl = document.getElementById('listaReferencias');
+            dl.innerHTML = ''; 
+
+            dados.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.referencia;
+                opt.textContent = item.nomePeca; 
+                dl.appendChild(opt);
+            });
+        }
 
         function clearForm() {
             if(confirm("Tem a certeza que deseja limpar todos os campos?")) {
