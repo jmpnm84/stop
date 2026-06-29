@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.2.1</title>
+    <title>Trigo - STOP v3.2.3</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -156,6 +156,7 @@
             background: transparent;
             outline: none;
             color: #333333;
+            text-align: center; /* Centra o texto em todos os inputs inline */
         }
         
         .form-row {
@@ -170,10 +171,6 @@
         }
         .form-row .form-group-inline:first-child { width: 55%; }
         .form-row .form-group-inline:last-child { width: 45%; }
-        
-        #data_1, #data_2 {
-            text-align: left;
-        }
 
         .form-group-block {
             display: flex;
@@ -197,6 +194,7 @@
             outline: none;
             background: transparent;
             padding: 2px 0;
+            text-align: center; /* Centra o texto nos blocos de Motivo e Observações */
         }
 
         #motivo_1, #motivo_2 {
@@ -279,7 +277,6 @@
     <datalist id="listaReferencias"></datalist>
 
     <div class="print-page">
-        <!-- BLOCO 1 -->
         <div class="a5-container">
             <div class="header">
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
@@ -326,7 +323,6 @@
             </div>
         </div>
 
-        <!-- BLOCO 2 (CLONE IMPRESSÃO) -->
         <div class="a5-container clone-block">
             <div class="header">
                 <img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image">
@@ -481,7 +477,6 @@
                 });
             });
             
-            // Pré-preenchimento automático da Data se estiver vazia
             const date1 = document.getElementById('data_1');
             if (!date1.value) {
                 const hoje = new Date();
@@ -494,7 +489,6 @@
                 localStorage.setItem('data', dataFormatada);
             }
 
-            // PRÉ-PREENCHIMENTO DO RESPONSÁVEL COM "SQF"
             const resp1 = document.getElementById('responsavel_1');
             if (!resp1.value) {
                 document.getElementById('responsavel_1').value = "SQF";
@@ -551,7 +545,6 @@
                     document.getElementById(`${fieldId}_2`).value = '';
                 });
                 
-                // Repõe a data atual após a limpeza
                 const hoje = new Date();
                 const dd = String(hoje.getDate()).padStart(2, '0');
                 const mm = String(hoje.getMonth() + 1).padStart(2, '0');
@@ -561,7 +554,6 @@
                 document.getElementById('data_2').value = dataFormatada;
                 localStorage.setItem('data', dataFormatada);
 
-                // Repõe o SQF por defeito após a limpeza
                 document.getElementById('responsavel_1').value = "SQF";
                 document.getElementById('responsavel_2').value = "SQF";
                 localStorage.setItem('responsavel', "SQF");
