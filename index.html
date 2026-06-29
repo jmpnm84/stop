@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.5.1</title>
+    <title>Trigo - STOP v3.4.6</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -104,23 +104,12 @@
     </div>
 
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW falhou:', err));
-            });
-        }
-
         const API_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
         const DB_NAME = "TrigoStopDB";
         let db;
 
         const request = indexedDB.open(DB_NAME, 1);
-        request.onupgradeneeded = e => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains("referencias")) {
-                db.createObjectStore("referencias", { keyPath: "ref" });
-            }
-        };
+        request.onupgradeneeded = e => e.target.result.createObjectStore("referencias", { keyPath: "ref" });
         request.onsuccess = e => db = e.target.result;
 
         async function importarDoDrive() {
@@ -132,10 +121,7 @@
                 const tx = db.transaction("referencias", "readwrite");
                 const store = tx.objectStore("referencias");
                 store.clear();
-                
-                data.forEach(item => {
-                    store.put({ ref: String(item.ref || ""), peca: String(item.peca || "") });
-                });
+                data.forEach(item => store.put({ ref: String(item.ref || ""), peca: String(item.peca || "") }));
                 alert("Dados sincronizados com sucesso!");
             } catch (e) { alert("Erro na sincronização: " + e.message); }
             btn.disabled = false; btn.innerText = "Sincronizar";
@@ -149,34 +135,28 @@
             listSugestoes.innerHTML = "";
             if (query.length < 1 || !db) { listSugestoes.style.display = "none"; return; }
             
-            const transaction = db.transaction("referencias", "readonly");
-            const store = transaction.objectStore("referencias");
-            
-            store.openCursor().onsuccess = e => {
-                const cursor = e.target.result;
-                if (cursor) {
-                    const ref = String(cursor.value.ref).toLowerCase();
-                    const peca = String(cursor.value.peca).toLowerCase();
-                    
-                    if (ref.includes(query) || peca.includes(query)) {
-                        const li = document.createElement('li');
-                        li.textContent = `${cursor.value.ref} - ${cursor.value.peca}`;
-                        li.onclick = () => {
-                            document.getElementById('ref_1').value = document.getElementById('ref_2').value = cursor.value.ref;
-                            document.getElementById('pecas_1').value = document.getElementById('pecas_2').value = cursor.value.peca;
-                            listSugestoes.style.display = "none";
-                        };
-                        listSugestoes.appendChild(li);
-                    }
-                    cursor.continue();
-                }
+            db.transaction("referencias", "readonly").objectStore("referencias").getAll().onsuccess = (e) => {
+                const results = e.target.result;
+                const filtered = results.filter(item => 
+                    String(item.ref).toLowerCase().includes(query) || 
+                    String(item.peca).toLowerCase().includes(query)
+                );
+
+                filtered.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item.ref; // Mostra apenas a referência no dropdown
+                    li.onclick = () => {
+                        document.getElementById('ref_1').value = document.getElementById('ref_2').value = item.ref;
+                        document.getElementById('pecas_1').value = document.getElementById('pecas_2').value = item.peca;
+                        listSugestoes.style.display = "none";
+                    };
+                    listSugestoes.appendChild(li);
+                });
                 listSugestoes.style.display = listSugestoes.children.length > 0 ? "block" : "none";
             };
         });
 
-        document.addEventListener('click', (e) => {
-            if (e.target !== inputRef) listSugestoes.style.display = "none";
-        });
+        document.addEventListener('click', (e) => { if (e.target !== inputRef) listSugestoes.style.display = "none"; });
 
         ['pecas_1', 'quantidade_1', 'data_1', 'responsavel_1', 'motivo_1', 'observacoes_1'].forEach(id => {
             document.getElementById(id).addEventListener('input', (e) => {
