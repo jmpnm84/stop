@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.3.0</title>
+    <title>Trigo - STOP v3.4.0</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,11 +34,9 @@
         .form-label { font-size: 18px; font-weight: bold; color: #000000; margin-right: 8px; white-space: nowrap; padding-bottom: 2px; }
         .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align: center; }
         
-        /* AJUSTE AQUI: Qtd ficou mais estreita (30%) e Data ocupa o restante (65%) */
-        .form-row { display: flex; justify-content: space-between; width: 100%; margin-bottom: 5mm; gap: 10px; }
-        .form-row .field-row { margin-bottom: 0; }
-        .field-qtd { width: 30%; } 
-        .field-data { width: 65%; }
+        /* Layout de Qtd e Data */
+        .split-row { display: flex; width: 100%; margin-bottom: 5mm; gap: 20px; }
+        .split-row .field-row { margin-bottom: 0; width: 50%; }
 
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
         .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
@@ -68,9 +66,10 @@
             <div class="field-row"><label class="form-label">Ref.:</label><input type="text" id="ref_1" class="form-input"></div>
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_1" class="form-input"></div>
             
-            <div class="form-row">
-                <div class="field-row field-qtd"><label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input"></div>
-                <div class="field-row field-data"><label class="form-label">Data:</label><input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA"></div>
+            <!-- LINHAS SEPARADAS -->
+            <div class="split-row">
+                <div class="field-row"><label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input"></div>
+                <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA"></div>
             </div>
             
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input"></div>
