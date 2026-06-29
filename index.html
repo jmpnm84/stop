@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.3.0</title>
+    <title>Trigo - STOP v3.3.1</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="theme-color" content="#ffdc00">
-
-    <link rel="manifest" href="manifest.json">
 
     <style>
         * { box-sizing: border-box; font-family: Arial, sans-serif; }
@@ -45,10 +43,10 @@
         .form-group-inline .form-label { font-size: 14px; color: #000000; white-space: nowrap; margin-right: 6px; margin-bottom: 2px; }
         .form-group-inline .form-input { flex-grow: 1; border: none; border-bottom: 1px solid #000000; font-size: 14px; padding: 2px 5px; background: transparent; outline: none; color: #333333; text-align: center; }
         
-        /* Ajuste específico para Qtd e Data */
-        .form-row { display: flex; justify-content: space-between; width: 100%; margin-bottom: 4.5mm; gap: 15px; }
-        .form-row .form-group-inline:first-child { width: 30%; } 
-        .form-row .form-group-inline:last-child { width: 55%; }
+        /* Ajuste de larguras para não sobrepor */
+        .form-row { display: flex; justify-content: space-between; width: 100%; margin-bottom: 4.5mm; gap: 10px; }
+        .form-row .form-group-inline:first-child { width: 30% !important; }
+        .form-row .form-group-inline:last-child { width: 65% !important; }
 
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 4.5mm; width: 100%; }
         .form-group-block .form-label { font-size: 14px; color: #000000; margin-bottom: 6px; }
