@@ -204,11 +204,11 @@
             font-weight: bold;
         }
         
-        /* CSS ULTRA OTIMIZADO PARA GOOGLE CHROME MOBILE / ANDROID */
+        /* AJUSTE FIXO E MILIMÉTRICO PARA IMPRESSORAS MOPRIA / ANDROID */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 0mm !important;
+                margin: 0mm !important; /* Tenta remover margens do browser */
             }
             html, body {
                 width: 297mm !important;
@@ -223,28 +223,29 @@
                 display: none !important;
             }
             .print-page {
-                display: block !important; /* Android lida melhor com block + inline-block na impressao */
+                display: block !important; 
                 width: 297mm !important;
                 height: 210mm !important;
                 margin: 0 !important;
-                padding: 6mm 5mm !important;
+                padding: 4mm 4mm !important; /* Espaço para a folha respirar na impressora */
                 box-sizing: border-box !important;
-                white-space: nowrap !important; /* Evita quebra de linha entre os blocos */
+                white-space: nowrap !important; 
             }
             .a5-container {
                 box-shadow: none !important;
                 box-sizing: border-box !important;
-                display: inline-flex !important; /* Coloca-os lado a lado rigidamente */
+                display: inline-flex !important; 
                 flex-direction: column !important;
-                width: 136mm !important; /* Margem de segurança extra para Android/Mopria */
-                max-width: 136mm !important;
-                height: 190mm !important;     
-                max-height: 190mm !important;
+                /* Encolhimento estratégico para compensar margens físicas da impressora */
+                width: 132mm !important; 
+                max-width: 132mm !important;
+                height: 182mm !important;     
+                max-height: 182mm !important;
                 border: 7px solid #ffdc00 !important;
-                padding: 5mm 4mm !important;
-                margin-right: 5mm !important; /* Espaço regulado entre os dois */
+                padding: 4mm 4mm !important;
+                margin-right: 4mm !important; 
                 vertical-align: top !important;
-                white-space: normal !important; /* Restaura comportamento de texto interno */
+                white-space: normal !important; 
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
@@ -255,9 +256,9 @@
                 display: inline-flex !important;
             }
             .header { margin-bottom: 2mm; }
-            .stop-box { height: 4.5cm; margin-bottom: 3mm; }
-            .form-group { margin-bottom: 3mm; }
-            .form-row { margin-bottom: 3mm; }
+            .stop-box { height: 4.2cm; margin-bottom: 2mm; }
+            .form-group { margin-bottom: 2.5mm; }
+            .form-row { margin-bottom: 2.5mm; }
             .form-block { margin-bottom: 2mm; }
         }
     </style>
@@ -267,7 +268,7 @@
     <div class="actions">
         <button class="btn btn-clear" onclick="clearForm()">Limpar Campos</button>
         <button class="btn btn-sync" id="btnSync" onclick="importarDoDrive()">Sincronizar</button>
-        <button class="btn" onclick="window.print()">Imprimir PDF (A4)</button>
+        <button class="btn" onclick="window.print()">Imprimir (Impressora)</button>
     </div>
 
     <datalist id="listaReferencias"></datalist>
