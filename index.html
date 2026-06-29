@@ -30,18 +30,20 @@
         .stop-text { color: #ffffff; font-size: 26px; font-weight: bold; }
         .nao-usar { color: #d61c1c; font-size: 22px; font-weight: bold; margin: 5px 0 0 0; }
 
-        /* ESTILOS ATUALIZADOS: NEGRITO E TAMANHO 18PX */
+        /* Estrutura de campos com negrito e fontes aumentadas */
         .field-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; }
         .form-label { font-size: 18px; font-weight: bold; color: #000000; margin-right: 8px; white-space: nowrap; padding-bottom: 2px; }
         .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align: center; }
         
+        /* Ajuste específico para a linha Qtd e Data */
         .form-row { display: flex; justify-content: space-between; width: 100%; margin-bottom: 5mm; gap: 10px; }
-        .form-row .field-row { margin-bottom: 0; }
+        .form-row .field-row { margin-bottom: 0; width: 48%; } /* Divide o espaço da linha em dois */
 
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
+        .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
         .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #000000; }
 
-        #motivo_1, #motivo_2 { color: #d61c1c; font-weight: bold; font-size: 24px; }
+        #motivo_1 { color: #d61c1c; font-weight: bold; font-size: 24px; }
         .observacoes-wrapper { margin-top: auto; margin-bottom: 5mm; }
 
         @media print {
@@ -71,8 +73,8 @@
             </div>
             
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input"></div>
-            <div class="form-group-block"><label class="form-label">Motivo:</label><textarea id="motivo_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
-            <div class="form-group-block observacoes-wrapper"><label class="form-label">Obs.:</label><textarea id="observacoes_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
+            <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea" style="min-height: 45px;"></textarea></div>
         </div>
     </div>
 
