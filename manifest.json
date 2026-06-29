@@ -8,13 +8,13 @@
   "theme_color": "#ffdc00",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/user-attachments/assets/78790071-93f2-4de7-8db4-dcb8cc28b45b",
+      "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://raw.githubusercontent.com/user-attachments/assets/78790071-93f2-4de7-8db4-dcb8cc28b45b",
+      "src": "icon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
