@@ -49,7 +49,10 @@
         .obs-color { color: #000000; }
 
         @media print {
-            @page { size: landscape; margin: 0; }
+            @page { 
+                size: landscape; 
+                margin: 8mm 0 0 0; /* Margem superior de 8mm aplicada */
+            }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             html, body { background-color: #ffffff; padding: 0; }
             .actions { display: none !important; }
