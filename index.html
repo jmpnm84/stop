@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.4.5</title>
+    <title>Trigo - STOP v3.4.6</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,12 +20,9 @@
         .btn-sync { background-color: #2196F3; }
         .btn:disabled { background-color: #cccccc; cursor: not-allowed; }
 
-        /* Container principal flexível */
         .print-page { display: flex; gap: 10mm; justify-content: center; align-items: center; width: 100%; }
-        
         .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
         
-        /* Esconder o Bloco 2 no ecrã para não poluir o layout */
         #bloco2 { display: none; }
 
         .header { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 6mm; }
@@ -37,7 +34,6 @@
         .nao-usar { color: #d61c1c; font-size: 22px; font-weight: bold; margin: 5px 0 0 0; }
 
         .autocomplete-container { position: relative; flex-grow: 1; display: flex; }
-
         .field-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; position: relative; }
         .form-label { font-size: 18px; font-weight: bold; color: #000000; margin-right: 8px; white-space: nowrap; padding-bottom: 2px; }
         .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align: center; width: 100%; }
@@ -47,25 +43,17 @@
         .autocomplete-suggestions li:hover { background-color: #ffdc00; color: #000; }
 
         .form-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; }
-        .form-row .field-row { margin-bottom: 0; }
-        
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
         .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
         .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #d61c1c; overflow: hidden; height: 45px; }
-
         .observacoes-wrapper { margin-top: auto; margin-bottom: 5mm; }
 
-        /* --- CONFIGURAÇÕES DE IMPRESSÃO --- */
         @media print {
             @page { size: landscape; margin: 0; }
-            html, body { background-color: #ffffff; width: 100%; height: 100%; min-height: 100%; padding: 0; margin: 0; display: flex; justify-content: center; align-items: center; }
+            html, body { background-color: #ffffff; width: 100%; height: 100%; padding: 0; margin: 0; }
             .actions { display: none !important; }
-            
-            .print-page { display: flex !important; flex-direction: row !important; gap: 10mm !important; justify-content: center !important; align-items: center !important; width: 100vw; height: 100vh; padding: 0 10mm; }
-            
-            .a5-container { border: 7px solid #ffdc00 !important; float: none !important; box-shadow: none !important; page-break-inside: avoid; }
-            
-            /* Forçar a exibição de ambos os blocos lado a lado na folha */
+            .print-page { display: flex !important; flex-direction: row !important; gap: 10mm !important; }
+            .a5-container { border: 7px solid #ffdc00 !important; page-break-inside: avoid; }
             #bloco1, #bloco2 { display: flex !important; width: 14cm !important; height: 19.5cm !important; }
         }
     </style>
@@ -79,9 +67,8 @@
 
     <div class="print-page">
         <div class="a5-container" id="bloco1">
-            <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image"></div>
+            <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" class="logo-image"></div>
             <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
-            
             <div class="field-row">
                 <label class="form-label">Ref.:</label>
                 <div class="autocomplete-container">
@@ -90,35 +77,24 @@
                 </div>
             </div>
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_1" class="form-input"></div>
-            
             <div class="form-row">
                 <div class="field-row" style="width: auto; margin-right: 20px;"><label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input" style="width: 100px;"></div>
                 <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_1" class="form-input" style="width: 180px;"></div>
             </div>
-            
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input" value="SQF"></div>
             <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea"></textarea></div>
             <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea"></textarea></div>
         </div>
 
         <div class="a5-container" id="bloco2">
-            <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" alt="Logo" class="logo-image"></div>
+            <div class="header"><img src="https://github.com/user-attachments/assets/815f6b76-e6c4-47eb-b8e2-476dea6c4d06" class="logo-image"></div>
             <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
-            
-            <div class="field-row">
-                <label class="form-label">Ref.:</label>
-                <div class="autocomplete-container">
-                    <input type="text" id="ref_2" class="form-input" autocomplete="off">
-                    <ul id="suggestions_list_2" class="autocomplete-suggestions" style="display: none;"></ul>
-                </div>
-            </div>
+            <div class="field-row"><label class="form-label">Ref.:</label><input type="text" id="ref_2" class="form-input"></div>
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_2" class="form-input"></div>
-            
             <div class="form-row">
                 <div class="field-row" style="width: auto; margin-right: 20px;"><label class="form-label">Qtd:</label><input type="text" id="quantidade_2" class="form-input" style="width: 100px;"></div>
                 <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_2" class="form-input" style="width: 180px;"></div>
             </div>
-            
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_2" class="form-input" value="SQF"></div>
             <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_2" class="form-textarea"></textarea></div>
             <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea"></textarea></div>
@@ -128,200 +104,68 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
         const DB_NAME = "TrigoStopDB";
-        const DB_VERSION = 1;
-        const STORE_NAME = "referencias";
         let db;
 
-        // --- INICIALIZAÇÃO DO INDEXEDDB ---
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onerror = (event) => console.error("Erro ao abrir IndexedDB:", event);
-        request.onsuccess = (event) => { db = event.target.result; };
-        request.onupgradeneeded = (event) => {
-            const database = event.target.result;
-            if (!database.objectStoreNames.contains(STORE_NAME)) {
-                database.createObjectStore(STORE_NAME, { keyPath: "ref" });
-            }
-        };
+        // Inicia IndexedDB
+        const request = indexedDB.open(DB_NAME, 1);
+        request.onupgradeneeded = e => e.target.result.createObjectStore("referencias", { keyPath: "ref" });
+        request.onsuccess = e => db = e.target.result;
 
-        // --- COMPORTAMENTO DE ESPELHAMENTO REAL-TIME ---
-        const mapeamentoCampos = [
-            { origen: 'ref_1', destino: 'ref_2' },
-            { origen: 'pecas_1', destino: 'pecas_2' },
-            { origen: 'quantidade_1', destino: 'quantidade_2' },
-            { origen: 'data_1', destino: 'data_2' },
-            { origen: 'responsavel_1', destino: 'responsavel_2' },
-            { origen: 'motivo_1', destino: 'motivo_2' },
-            { origen: 'observacoes_1', destino: 'observacoes_2' }
-        ];
-
-        mapeamentoCampos.forEach(par => {
-            const elOrigem = document.getElementById(par.origen);
-            const elDestino = document.getElementById(par.destino);
-            elOrigem.addEventListener('input', () => {
-                elDestino.value = elOrigem.value;
-                if(par.origen === 'motivo_1' || par.origen === 'observacoes_1') {
-                    elDestino.style.fontSize = elOrigem.style.fontSize;
-                }
-            });
-        });
-
-        // --- FUNÇÃO PARA SINCRONIZAR ULTRA-SEGURA (IMUNE A ERROS DE CHAVE) ---
+        // Função de Sincronização
         async function importarDoDrive() {
             const btn = document.getElementById('btnSync');
-            btn.disabled = true;
-            btn.innerText = "A sincronizar...";
-
+            btn.disabled = true; btn.innerText = "Sincronizando...";
             try {
-                const response = await fetch(API_URL);
-                if (!response.ok) throw new Error("Falha na resposta da rede.");
-                const dados = await response.json();
-
-                const transaction = db.transaction([STORE_NAME], "readwrite");
-                const store = transaction.objectStore(STORE_NAME);
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                const tx = db.transaction("referencias", "readwrite");
+                const store = tx.objectStore("referencias");
                 store.clear();
-
-                dados.forEach(item => {
-                    let referencia = "";
-                    let peca = "";
-
-                    // Analisa de forma flexível as chaves do objeto enviado
-                    let chaves = Object.keys(item);
-                    
-                    chaves.forEach((chave, index) => {
-                        let chaveLimpa = chave.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-                        
-                        // Captura por nome esperado ou pela primeira posição (Coluna 1)
-                        if (chaveLimpa === "referencia" || chaveLimpa === "ref" || index === 0) {
-                            if (!referencia) referencia = item[chave];
-                        }
-                        // Captura por nome esperado ou pela segunda posição (Coluna 2)
-                        if (chaveLimpa.includes("peca") || chaveLimpa.includes("nome") || index === 1) {
-                            if (!peca) peca = item[chave];
-                        }
-                    });
-                    
-                    // Validação crítica: Só grava se a referência extraída for um texto real e válido
-                    if (referencia && String(referencia).trim() !== "" && String(referencia).trim() !== "undefined") {
-                        store.put({ 
-                            ref: String(referencia).trim(), 
-                            peca: peca ? String(peca).trim() : "" 
-                        });
-                    }
-                });
-
-                transaction.oncomplete = () => {
-                    alert("Dados sincronizados com sucesso!");
-                    btn.disabled = false;
-                    btn.innerText = "Sincronizar";
-                };
-            } catch (erro) {
-                console.error("Erro na sincronização:", erro);
-                alert("Erro ao sincronizar dados: " + erro.message);
-                btn.disabled = false;
-                btn.innerText = "Sincronizar";
-            }
+                data.forEach(item => store.put({ ref: String(item.ref || item[0]), peca: String(item.peca || item[1] || "") }));
+                alert("Dados sincronizados com sucesso!");
+            } catch (e) { alert("Erro na sincronização: " + e.message); }
+            btn.disabled = false; btn.innerText = "Sincronizar";
         }
 
-        // --- SISTEMA DE AUTOCOMPLETE (BLOCO 1) ---
+        // Sistema de Busca (Autocomplete) e Espelhamento
         const inputRef = document.getElementById('ref_1');
-        const inputPecas = document.getElementById('pecas_1');
         const listSugestoes = document.getElementById('suggestions_list_1');
 
         inputRef.addEventListener('input', function() {
-            const query = this.value.trim().toLowerCase();
+            const query = this.value.toLowerCase();
             listSugestoes.innerHTML = "";
+            if (!query || !db) { listSugestoes.style.display = "none"; return; }
             
-            if (!query || !db) {
-                listSugestoes.style.display = "none";
-                return;
-            }
-
-            const transaction = db.transaction([STORE_NAME], "readonly");
-            const store = transaction.objectStore(STORE_NAME);
-            const cursorRequest = store.openCursor();
-            let correspondencias = 0;
-
-            cursorRequest.onsuccess = function(event) {
-                const cursor = event.target.result;
+            db.transaction("referencias").objectStore("referencias").openCursor().onsuccess = e => {
+                const cursor = e.target.result;
                 if (cursor) {
-                    const item = cursor.value;
-                    if (item.ref.toLowerCase().includes(query)) {
+                    if (cursor.value.ref.toLowerCase().includes(query)) {
                         const li = document.createElement('li');
-                        li.textContent = item.peca ? `${item.ref} - ${item.peca}` : item.ref;
-                        li.addEventListener('click', function() {
-                            inputRef.value = item.ref;
-                            inputPecas.value = item.peca;
-                            
-                            document.getElementById('ref_2').value = item.ref;
-                            document.getElementById('pecas_2').value = item.peca;
-
+                        li.textContent = `${cursor.value.ref} - ${cursor.value.peca}`;
+                        li.onclick = () => {
+                            document.getElementById('ref_1').value = document.getElementById('ref_2').value = cursor.value.ref;
+                            document.getElementById('pecas_1').value = document.getElementById('pecas_2').value = cursor.value.peca;
                             listSugestoes.style.display = "none";
-                        });
+                        };
                         listSugestoes.appendChild(li);
-                        correspondencias++;
                     }
-                    if (correspondencias < 15) {
-                        cursor.continue();
-                    } else {
-                        listSugestoes.style.display = "block";
-                    }
-                } else if (correspondencias > 0) {
-                    listSugestoes.style.display = "block";
-                } else {
-                    listSugestoes.style.display = "none";
+                    cursor.continue();
                 }
+                listSugestoes.style.display = listSugestoes.children.length > 0 ? "block" : "none";
             };
         });
 
-        document.addEventListener('click', function(e) {
-            if (e.target !== inputRef && e.target !== listSugestoes) {
-                listSugestoes.style.display = "none";
-            }
-        });
-
-        // --- FORMATAR DATAS E FONTES ADAPTATIVAS ---
-        function formatarData(value) {
-            let v = value.replace(/\D/g, ''); 
-            if (v.length > 8) v = v.substring(0, 8);
-            if (v.length >= 5) return v.replace(/(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
-            else if (v.length > 2) return v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
-            return v;
-        }
-        
-        document.getElementById('data_1').addEventListener('input', (e) => { 
-            let dFmt = formatarData(e.target.value);
-            e.target.value = dFmt;
-            document.getElementById('data_2').value = dFmt;
-        });
-        
-        ['motivo_1', 'observacoes_1'].forEach(idOrigem => {
-            const base = idOrigem.split('_')[0];
-            const elOrigem = document.getElementById(idOrigem);
-            const elDestino = document.getElementById(`${base}_2`);
-
-            elOrigem.addEventListener('input', function() {
-                let fontSize = 24;
-                this.style.fontSize = fontSize + 'px';
-                
-                while (this.scrollHeight > 45 && fontSize > 11) {
-                    fontSize--;
-                    this.style.fontSize = fontSize + 'px';
-                }
-                elDestino.style.fontSize = this.style.fontSize;
+        // Espelhamento automático de outros campos
+        ['pecas_1', 'quantidade_1', 'data_1', 'responsavel_1', 'motivo_1', 'observacoes_1'].forEach(id => {
+            document.getElementById(id).addEventListener('input', (e) => {
+                const targetId = id.replace('_1', '_2');
+                document.getElementById(targetId).value = e.target.value;
             });
         });
 
         function clearForm() {
-            document.querySelectorAll('input, textarea').forEach(el => {
-                if (el.id.startsWith('responsavel_')) {
-                    el.value = 'SQF';
-                } else {
-                    el.value = '';
-                    if(el.id.startsWith('motivo_') || el.id.startsWith('observacoes_')) el.style.fontSize = '24px';
-                }
-            });
-            listSugestoes.innerHTML = "";
-            listSugestoes.style.display = "none";
+            document.querySelectorAll('input, textarea').forEach(el => el.value = el.id.includes('responsavel') ? 'SQF' : '');
+            listSugestoes.style.display = 'none';
         }
     </script>
 </body>
