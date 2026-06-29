@@ -1,6 +1,6 @@
 {
   "id": "trigo-stop-pwa",
-  "name": "TRIGO STOP Nao Usar",
+  "name": "Trigo Cartões STOP",
   "short_name": "STOP",
   "start_url": "./index.html",
   "display": "standalone",
