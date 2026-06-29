@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRIGO - STOP NÃO USAR (DUPLO A4)</title>
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJpZCI6ICIvIiwKICAibmFtZSI6ICJUUklHTyBTVE9QIE5hbyBVc2FyIiwKICAic2hvcnRfbmFtZSI6ICJTVE9QIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJ0aGVtZV9jb2xvciI6ICIjZmZkYzAwIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3VzZXItYXR0YWNobWVudHMvYXNzZXRzLzc4NzkwMDcxLTkzZjItNGRlNy04ZGI0LWRjYjhjYzM4YjQ1YiIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IiwKICAgICAgImNyb3NzT3JpZ2luIjogImFub255bW91cyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3VzZXItYXR0YWNobWVudHMvYXNzZXRzLzc4NzkwMDcxLTkzZjItNGRlNy04ZGI0LWRjYjhjYzM4YjQ1YiIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IiwKICAgICAgImNyb3NzT3JpZ2luIjogImFub255bW91cyIKICAgIH0KICBdCn0=">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJidXR0b24iOiAiaGlkZGVuIiwKICAiaWQiOiAiLyIsCiAgIm5hbWUiOiAiVFJJR08gU1RPUCBOYW8gVXNhciIsCiAgInNob3J0X25hbWUiOiAiU1RPUCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2ZmZGMwMCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS91c2VyLWF0dGFjaG1lbnRzL2Fzc2V0cy83ODc5MDA3MS05M2YyLTRkZTctOGRiNC1kY2I4Y2MzOGI0NWIiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSIsCiAgICAgICJjcm9zc09yaWdpbiI6ICJhbm9ueW1vdXMiCiAgICB9CiAgXQp9">
     
     <meta name="theme-color" content="#ffdc00">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,28 +27,30 @@
             overflow-x: hidden;
         }
         
-        /* Floating Digital Control Buttons */
+        /* Floating Digital Control Buttons - Ajustados ao tamanho do cartão (14cm) */
         .actions {
             margin-bottom: 20px;
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
+            gap: 10px; /* Espaçamento moderno entre botões */
             width: 100%;
-            max-width: 28cm;
+            max-width: 14cm; /* Alinhamento estrito com a largura do cartão A5 */
         }
         .btn {
             background-color: #034263;
             color: white;
             border: none;
-            padding: 12px 18px;
-            font-size: 14px;
-            border-radius: 4px;
+            padding: 14px 10px; /* Ligeiramente mais alto para toque mobile fácil */
+            font-size: 13px; /* Ajuste fino para o texto caber sem quebrar em ecrãs pequenos */
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            flex: 1;
-            min-width: 140px;
+            flex: 1; /* Garante tamanho exatamente igual para os três */
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+        }
+        .btn:active {
+            transform: scale(0.98);
         }
         .btn-clear {
             background-color: #d61c1c;
@@ -279,8 +281,8 @@
 
     <div class="actions">
         <button class="btn btn-clear" onclick="clearForm()">Limpar Campos</button>
-        <button class="btn btn-sync" id="btnSync" onclick="importarDoDrive()">Sincronizar com Drive</button>
-        <button class="btn" onclick="window.print()">Imprimir / Guardar PDF (A4 Paisagem)</button>
+        <button class="btn btn-sync" id="btnSync" onclick="importarDoDrive()">Sincronizar</button>
+        <button class="btn" onclick="window.print()">Imprimir PDF (A4)</button>
     </div>
 
     <datalist id="listaReferencias"></datalist>
@@ -303,14 +305,16 @@
                 <label class="form-label">Peças:</label>
                 <input type="text" id="pecas_1" class="form-input">
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Quantidade:</label>
-                    <input type="text" id="quantidade_1" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Data:</label>
-                    <input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
+            <div class="print-row-container" style="display: contents;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Quantidade:</label>
+                        <input type="text" id="quantidade_1" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Data:</label>
+                        <input type="text" id="data_1" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -343,14 +347,16 @@
                 <label class="form-label">Peças:</label>
                 <input type="text" id="pecas_2" class="form-input">
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Quantidade:</label>
-                    <input type="text" id="quantidade_2" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Data:</label>
-                    <input type="text" id="data_2" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
+            <div class="print-row-container" style="display: contents;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Quantidade:</label>
+                        <input type="text" id="quantidade_2" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Data:</label>
+                        <input type="text" id="data_2" class="form-input" placeholder="DD/MM/AAAA" maxlength="10">
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -374,7 +380,6 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfoytX-8eOYURVuGhqgUX6CcTko4k8mFZ8i_dqD51nIbsP_KDK5gmT3lcaIx6V3mg/exec";
         const baseFields = ['ref', 'pecas', 'quantidade', 'data', 'responsavel', 'motivo', 'observacoes'];
 
-        // Configuração Inicial do IndexedDB
         const DB_NAME = 'TrigoStopDB';
         const DB_VERSION = 1;
         const STORE_NAME = 'referencias';
@@ -397,7 +402,7 @@
             const db = await abrirDB();
             const tx = db.transaction(STORE_NAME, 'readwrite');
             const store = tx.objectStore(STORE_NAME);
-            store.clear(); // Limpa registos antigos antes de atualizar
+            store.clear();
             dados.forEach(item => store.put(item));
             return tx.complete;
         }
@@ -448,20 +453,17 @@
         }
 
         window.addEventListener('load', async () => {
-            // Carrega primeiro os dados locais guardados no IndexedDB
             try {
                 const dadosLocais = await lerDoIndexedDB();
                 if (dadosLocais && dadosLocais.length > 0) {
                     carregarDatalist(dadosLocais);
                 } else {
-                    // Se não houver dados, tenta ir buscar à API por defeito
                     carregarDadosViaFetch();
                 }
             } catch (e) {
                 carregarDadosViaFetch();
             }
 
-            // Restauro dos campos do formulário via localStorage
             baseFields.forEach(fieldId => {
                 const savedValue = localStorage.getItem(fieldId);
                 [1, 2].forEach(num => {
@@ -477,8 +479,9 @@
                         
                         localStorage.setItem(fieldId, val);
                         const otherNum = num === 1 ? 2 : 1;
-                        const otherEl = document.getElementById(`${fieldId}_${otherNum}`);
-                        if (otherEl) otherEl.value = val;
+                        const otherEl = document.getElementById(`${fieldId}_otherNum`);
+                        const targetOther = document.getElementById(`${fieldId}_${otherNum}`);
+                        if (targetOther) targetOther.value = val;
 
                         if (fieldId === 'ref') {
                             verificarFiltroReferencia(val);
@@ -518,12 +521,12 @@
             
             try {
                 await carregarDadosViaFetch();
-                alert("Referências sincronizadas e atualizadas no IndexedDB com sucesso!");
+                alert("Referências sincronizadas com sucesso!");
             } catch (err) {
-                alert("Erro ao tentar atualizar os dados do Drive.");
+                alert("Erro ao sincronizar.");
             } finally {
                 btn.disabled = false;
-                btn.textContent = "Sincronizar com Drive";
+                btn.textContent = "Sincronizar";
             }
         }
 
