@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.2.3</title>
+    <title>Trigo - STOP v3.2.4</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -156,7 +156,7 @@
             background: transparent;
             outline: none;
             color: #333333;
-            text-align: center; /* Centra o texto em todos os inputs inline */
+            text-align: center;
         }
         
         .form-row {
@@ -194,13 +194,15 @@
             outline: none;
             background: transparent;
             padding: 2px 0;
-            text-align: center; /* Centra o texto nos blocos de Motivo e Observações */
+            text-align: center;
         }
 
+        /* O tamanho base do motivo passa a ser gerido por JS, removemos o clamp fixo */
         #motivo_1, #motivo_2 {
             color: #d61c1c;
             font-weight: bold;
-            font-size: clamp(14px, 3.5vw, 22px);
+            font-size: 22px; 
+            transition: font-size 0.1s ease;
         }
         
         .observacoes-wrapper {
@@ -259,10 +261,6 @@
             .form-row { margin-bottom: 3mm; }
             .form-group-block { margin-bottom: 3mm; }
             .observacoes-wrapper { margin-bottom: 2mm; }
-
-            #motivo_1, #motivo_2 {
-                font-size: clamp(13px, 4.2vw, 20px) !important;
-            }
         }
     </style>
 </head>
@@ -440,6 +438,25 @@
             }
         }
 
+        // FUNÇÃO PARA REDUZIR O TAMANHO DO TEXTO DINAMICAMENTE
+        function ajustarTamanhoFonteMotivo(texto) {
+            const comprimento = texto.length;
+            let tamanho = 22; // Tamanho padrão inicial (grande)
+
+            if (comprimento > 60) {
+                tamanho = 12;
+            } else if (comprimento > 45) {
+                tamanho = 14;
+            } else if (comprimento > 30) {
+                tamanho = 16;
+            } else if (comprimento > 15) {
+                tamanho = 19;
+            }
+
+            document.getElementById('motivo_1').style.fontSize = tamanho + "px";
+            document.getElementById('motivo_2').style.fontSize = tamanho + "px";
+        }
+
         window.addEventListener('load', async () => {
             try {
                 const dadosLocais = await lerDoIndexedDB();
@@ -473,6 +490,11 @@
                         if (fieldId === 'ref') {
                             verificarFiltroReferencia(val);
                         }
+
+                        // Dispara a mudança de tamanho ao digitar no motivo
+                        if (fieldId === 'motivo') {
+                            ajustarTamanhoFonteMotivo(val);
+                        }
                     });
                 });
             });
@@ -494,6 +516,12 @@
                 document.getElementById('responsavel_1').value = "SQF";
                 document.getElementById('responsavel_2').value = "SQF";
                 localStorage.setItem('responsavel', "SQF");
+            }
+
+            // Garante o tamanho correto ao carregar texto guardado no LocalStorage
+            const motivoGuardado = localStorage.getItem('motivo');
+            if (motivoGuardado) {
+                ajustarTamanhoFonteMotivo(motivoGuardado);
             }
         });
 
@@ -557,6 +585,9 @@
                 document.getElementById('responsavel_1').value = "SQF";
                 document.getElementById('responsavel_2').value = "SQF";
                 localStorage.setItem('responsavel', "SQF");
+
+                // Restaura o tamanho original após limpar
+                ajustarTamanhoFonteMotivo('');
             }
         }
     </script>
