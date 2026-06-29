@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.6.0</title>
+    <title>Trigo - STOP v3.7.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -20,13 +20,11 @@
         .btn { background-color: #034263; color: white; border: none; padding: 14px 10px; font-size: 13px; border-radius: 6px; cursor: pointer; font-weight: bold; flex: 1; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.2s; }
         .btn-clear { background-color: #d61c1c; }
         .btn-sync { background-color: #2196F3; }
-        .btn:disabled { background-color: #cccccc; cursor: not-allowed; }
-
+        
         .print-page { display: flex; gap: 10mm; justify-content: center; align-items: center; width: 100%; }
         .a5-container { width: 14cm; max-width: 100%; height: 19.5cm; background-color: #ffffff; border: 8px solid #ffdc00; padding: 8mm 7mm; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
         
         #bloco2 { display: none; }
-
         .header { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 6mm; }
         .logo-image { height: 42px; max-width: 100%; object-fit: contain; }
 
@@ -35,28 +33,24 @@
         .stop-text { color: #ffffff; font-size: 26px; font-weight: bold; }
         .nao-usar { color: #d61c1c; font-size: 22px; font-weight: bold; margin: 5px 0 0 0; }
 
-        .autocomplete-container { position: relative; flex-grow: 1; display: flex; }
         .field-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; position: relative; }
         .form-label { font-size: 18px; font-weight: bold; color: #000000; margin-right: 8px; white-space: nowrap; padding-bottom: 2px; }
         .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align: center; width: 100%; }
         
         .autocomplete-suggestions { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto; z-index: 9999; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 2px; list-style: none; padding: 0; }
         .autocomplete-suggestions li { padding: 10px; cursor: pointer; font-size: 16px; text-align: left; border-bottom: 1px solid #eee; color: #333; }
-        .autocomplete-suggestions li:hover { background-color: #ffdc00; color: #000; }
+        .autocomplete-suggestions li:hover { background-color: #ffdc00; }
 
-        .form-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; }
         .form-group-block { display: flex; flex-direction: column; margin-bottom: 5mm; width: 100%; }
         .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
-        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #d61c1c; overflow: hidden; height: 45px; }
-        .observacoes-wrapper { margin-top: auto; margin-bottom: 5mm; }
+        .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; color: #d61c1c; height: 45px; display: flex; align-items: center; justify-content: center; }
 
         @media print {
             @page { size: landscape; margin: 0; }
-            html, body { background-color: #ffffff; width: 100%; height: 100%; padding: 0; margin: 0; }
+            html, body { background-color: #ffffff; padding: 0; }
             .actions { display: none !important; }
-            .print-page { display: flex !important; flex-direction: row !important; gap: 10mm !important; }
-            .a5-container { border: 7px solid #ffdc00 !important; page-break-inside: avoid; }
-            #bloco1, #bloco2 { display: flex !important; width: 14cm !important; height: 19.5cm !important; }
+            .a5-container { border: 7px solid #ffdc00 !important; }
+            #bloco1, #bloco2 { display: flex !important; }
         }
     </style>
 </head>
@@ -73,19 +67,19 @@
             <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
             <div class="field-row">
                 <label class="form-label">Ref.:</label>
-                <div class="autocomplete-container">
+                <div class="autocomplete-container" style="flex-grow:1; position:relative;">
                     <input type="text" id="ref_1" class="form-input" autocomplete="off">
                     <ul id="suggestions_list_1" class="autocomplete-suggestions" style="display: none;"></ul>
                 </div>
             </div>
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_1" class="form-input"></div>
-            <div class="form-row">
-                <div class="field-row" style="width: auto; margin-right: 20px;"><label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input" style="width: 100px;"></div>
-                <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_1" class="form-input" style="width: 180px;"></div>
+            <div class="field-row">
+                <label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input" style="width: 80px; flex-grow:0;">
+                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_1" class="form-input" maxlength="10" placeholder="DD/MM/AAAA">
             </div>
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input" value="SQF"></div>
             <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea"></textarea></div>
-            <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea"></textarea></div>
         </div>
 
         <div class="a5-container" id="bloco2">
@@ -93,13 +87,13 @@
             <div class="stop-box"><div class="stop-sign"><span class="stop-text">STOP</span></div><div class="nao-usar">NÃO USAR</div></div>
             <div class="field-row"><label class="form-label">Ref.:</label><input type="text" id="ref_2" class="form-input"></div>
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_2" class="form-input"></div>
-            <div class="form-row">
-                <div class="field-row" style="width: auto; margin-right: 20px;"><label class="form-label">Qtd:</label><input type="text" id="quantidade_2" class="form-input" style="width: 100px;"></div>
-                <div class="field-row"><label class="form-label">Data:</label><input type="text" id="data_2" class="form-input" style="width: 180px;"></div>
+            <div class="field-row">
+                <label class="form-label">Qtd:</label><input type="text" id="quantidade_2" class="form-input" style="width: 80px; flex-grow:0;">
+                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_2" class="form-input" maxlength="10">
             </div>
             <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_2" class="form-input" value="SQF"></div>
             <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_2" class="form-textarea"></textarea></div>
-            <div class="form-group-block observacoes-wrapper"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea"></textarea></div>
+            <div class="form-group-block"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea"></textarea></div>
         </div>
     </div>
 
@@ -108,6 +102,31 @@
         const DB_NAME = "TrigoStopDB";
         let db;
 
+        // Formatação de Data e Ajuste de fonte
+        document.querySelectorAll('input[id^="data"]').forEach(el => {
+            el.addEventListener('input', function(e) {
+                let v = this.value.replace(/\D/g, '');
+                if (v.length > 2) v = v.substring(0,2) + '/' + v.substring(2);
+                if (v.length > 5) v = v.substring(0,5) + '/' + v.substring(5,9);
+                this.value = v;
+                // Espelhar pro segundo bloco
+                const targetId = this.id.replace('_1', '_2');
+                if(document.getElementById(targetId)) document.getElementById(targetId).value = v;
+            });
+        });
+
+        document.querySelectorAll('textarea').forEach(el => {
+            el.addEventListener('input', function() {
+                this.style.fontSize = "24px";
+                let size = 24;
+                while (this.scrollHeight > this.offsetHeight && size > 10) {
+                    size--;
+                    this.style.fontSize = size + "px";
+                }
+            });
+        });
+
+        // IndexedDB e Lógica anterior
         const request = indexedDB.open(DB_NAME, 1);
         request.onupgradeneeded = e => e.target.result.createObjectStore("referencias", { keyPath: "ref" });
         request.onsuccess = e => db = e.target.result;
@@ -122,8 +141,8 @@
                 const store = tx.objectStore("referencias");
                 store.clear();
                 data.forEach(item => store.put({ ref: String(item.ref || ""), peca: String(item.peca || "") }));
-                alert("Dados sincronizados com sucesso!");
-            } catch (e) { alert("Erro na sincronização: " + e.message); }
+                alert("Dados sincronizados!");
+            } catch (e) { alert("Erro: " + e.message); }
             btn.disabled = false; btn.innerText = "Sincronizar";
         }
 
@@ -137,14 +156,11 @@
             
             db.transaction("referencias", "readonly").objectStore("referencias").getAll().onsuccess = (e) => {
                 const results = e.target.result;
-                const filtered = results.filter(item => 
-                    String(item.ref).toLowerCase().includes(query) || 
-                    String(item.peca).toLowerCase().includes(query)
-                );
+                const filtered = results.filter(item => String(item.ref).toLowerCase().includes(query) || String(item.peca).toLowerCase().includes(query));
 
                 filtered.forEach(item => {
                     const li = document.createElement('li');
-                    li.textContent = item.ref; // Mostra apenas a referência no dropdown
+                    li.textContent = item.ref;
                     li.onclick = () => {
                         document.getElementById('ref_1').value = document.getElementById('ref_2').value = item.ref;
                         document.getElementById('pecas_1').value = document.getElementById('pecas_2').value = item.peca;
@@ -158,7 +174,7 @@
 
         document.addEventListener('click', (e) => { if (e.target !== inputRef) listSugestoes.style.display = "none"; });
 
-        ['pecas_1', 'quantidade_1', 'data_1', 'responsavel_1', 'motivo_1', 'observacoes_1'].forEach(id => {
+        ['pecas_1', 'quantidade_1', 'responsavel_1', 'motivo_1', 'observacoes_1'].forEach(id => {
             document.getElementById(id).addEventListener('input', (e) => {
                 const targetId = id.replace('_1', '_2');
                 if(document.getElementById(targetId)) document.getElementById(targetId).value = e.target.value;
