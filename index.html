@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.4.3</title>
+    <title>Trigo - STOP v3.4.4</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -181,10 +181,12 @@
                 store.clear();
 
                 dados.forEach(item => {
+                    // Mapeamento direto com base nas chaves exatas geradas pelo Apps Script
                     let referencia = item.referencia;
                     let peca = item.nomePeca;
                     
-                    if (referencia) {
+                    // Validação de segurança: Só insere se a referência for válida e não estiver vazia
+                    if (referencia && String(referencia).trim() !== "") {
                         store.put({ 
                             ref: String(referencia).trim(), 
                             peca: peca ? String(peca).trim() : "" 
@@ -199,7 +201,7 @@
                 };
             } catch (erro) {
                 console.error("Erro na sincronização:", erro);
-                alert("Erro ao sincronizar dados.");
+                alert("Erro ao sincronizar dados: " + erro.message);
                 btn.disabled = false;
                 btn.innerText = "Sincronizar";
             }
@@ -277,6 +279,7 @@
             document.getElementById('data_2').value = dFmt;
         });
         
+        // Ajuste inteligente adaptativo do tamanho da fonte contra quebras de linha
         ['motivo_1', 'observacoes_1'].forEach(idOrigem => {
             const base = idOrigem.split('_')[0];
             const elOrigem = document.getElementById(idOrigem);
@@ -286,6 +289,7 @@
                 let fontSize = 24;
                 this.style.fontSize = fontSize + 'px';
                 
+                // Diminui gradativamente se o texto estourar os 45px de altura da caixa
                 while (this.scrollHeight > 45 && fontSize > 11) {
                     fontSize--;
                     this.style.fontSize = fontSize + 'px';
