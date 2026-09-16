@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v3.9.2</title>
+    <title>Trigo - STOP v4.0.1</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -36,6 +36,7 @@
         .field-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; position: relative; }
         .form-label { font-size: 18px; font-weight: bold; color: #000000; margin-right: 8px; white-space: nowrap; padding-bottom: 2px; }
         .form-input { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 18px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align: center; width: 100%; }
+        .form-select { flex-grow: 1; border: none; border-bottom: 2px solid #000000; font-size: 16px; font-weight: bold; padding: 2px 5px; background: transparent; outline: none; color: #000000; text-align-last: center; width: 100%; cursor: pointer; }
         
         .autocomplete-suggestions { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto; z-index: 9999; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 2px; list-style: none; padding: 0; }
         .autocomplete-suggestions li { padding: 10px; cursor: pointer; font-size: 16px; text-align: left; border-bottom: 1px solid #eee; color: #333; }
@@ -58,7 +59,6 @@
             .actions { display: none !important; }
             .a5-container { border: 7px solid #ffdc00 !important; }
             #bloco1, #bloco2 { display: flex !important; }
-            input[placeholder="___/___/______"] { color: transparent !important; }
         }
     </style>
 </head>
@@ -83,9 +83,24 @@
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_1" class="form-input"></div>
             <div class="field-row">
                 <label class="form-label">Qtd:</label><input type="text" id="quantidade_1" class="form-input" style="width: 80px; flex-grow:0;">
-                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_1" class="form-input" placeholder="___/___/______">
+                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_1" class="form-input">
             </div>
-            <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_1" class="form-input" value="SQF"></div>
+            <div class="field-row">
+                <label class="form-label">Resp.:</label>
+                <select id="responsavel_1" class="form-select">
+                    <option value="">Selecionar Responsável</option>
+                    <option value="SQF - Cláudio Seabra">SQF - Cláudio Seabra</option>
+                    <option value="SQF - Ricardo Almeida">SQF - Ricardo Almeida</option>
+                    <option value="SQF - Helga Correia">SQF - Helga Correia</option>
+                    <option value="SQF - Pedro Falcão">SQF - Pedro Falcão</option>
+                    <option value="SQF - Tarciana Félix">SQF - Tarciana Félix</option>
+                    <option value="SQF - Leandro Andrade">SQF - Leandro Andrade</option>
+                    <option value="SQF - Nuno Leal">SQF - Nuno Leal</option>
+                    <option value="SQF - Patrício Pires">SQF - Patrício Pires</option>
+                    <option value="SQF - Eduardo Silva">SQF - Eduardo Silva</option>
+                    <option value="SQF - David Valente">SQF - David Valente</option>
+                </select>
+            </div>
             <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_1" class="form-textarea motivo-color"></textarea></div>
             <div class="form-group-block"><label class="form-label-block">Obs.:</label><textarea id="observacoes_1" class="form-textarea form-textarea-obs obs-color"></textarea></div>
         </div>
@@ -97,9 +112,24 @@
             <div class="field-row"><label class="form-label">Peças:</label><input type="text" id="pecas_2" class="form-input"></div>
             <div class="field-row">
                 <label class="form-label">Qtd:</label><input type="text" id="quantidade_2" class="form-input" style="width: 80px; flex-grow:0;">
-                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_2" class="form-input" placeholder="___/___/______">
+                <label class="form-label" style="margin-left: 20px;">Data:</label><input type="text" id="data_2" class="form-input">
             </div>
-            <div class="field-row"><label class="form-label">Resp.:</label><input type="text" id="responsavel_2" class="form-input" value="SQF"></div>
+            <div class="field-row">
+                <label class="form-label">Resp.:</label>
+                <select id="responsavel_2" class="form-select">
+                    <option value="">Selecionar Responsável</option>
+                    <option value="SQF - Cláudio Seabra">SQF - Cláudio Seabra</option>
+                    <option value="SQF - Ricardo Almeida">SQF - Ricardo Almeida</option>
+                    <option value="SQF - Helga Correia">SQF - Helga Correia</option>
+                    <option value="SQF - Pedro Falcão">SQF - Pedro Falcão</option>
+                    <option value="SQF - Tarciana Félix">SQF - Tarciana Félix</option>
+                    <option value="SQF - Leandro Andrade">SQF - Leandro Andrade</option>
+                    <option value="SQF - Nuno Leal">SQF - Nuno Leal</option>
+                    <option value="SQF - Patrício Pires">SQF - Patrício Pires</option>
+                    <option value="SQF - Eduardo Silva">SQF - Eduardo Silva</option>
+                    <option value="SQF - David Valente">SQF - David Valente</option>
+                </select>
+            </div>
             <div class="form-group-block"><label class="form-label-block">Motivo:</label><textarea id="motivo_2" class="form-textarea motivo-color"></textarea></div>
             <div class="form-group-block"><label class="form-label-block">Obs.:</label><textarea id="observacoes_2" class="form-textarea form-textarea-obs obs-color"></textarea></div>
         </div>
@@ -110,13 +140,31 @@
         const DB_NAME = "TrigoStopDB";
         let db;
 
+        // Preencher a data atual automaticamente ao carregar a página
+        function preencherDataAtual() {
+            const hoje = new Date();
+            const dia = String(hoje.getDate()).padStart(2, '0');
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const ano = hoje.getFullYear();
+            const dataFormatada = `${dia}/${mes}/${ano}`;
+            
+            const data1 = document.getElementById('data_1');
+            const data2 = document.getElementById('data_2');
+            if (data1) data1.value = dataFormatada;
+            if (data2) data2.value = dataFormatada;
+        }
+
+        // Executa ao carregar
+        preencherDataAtual();
+
+        // Sincronização manual do campo data caso o utilizador decida alterar
         document.querySelectorAll('input[id^="data"]').forEach(el => {
             el.addEventListener('input', function(e) {
-                let v = this.value.replace(/\D/g, '');
-                if (v.length > 2) v = v.substring(0,2) + '/' + v.substring(2);
-                if (v.length > 5) v = v.substring(0,5) + '/' + v.substring(5,9);
-                document.getElementById('data_1').value = v;
-                document.getElementById('data_2').value = v;
+                if(this.id === 'data_1') {
+                    document.getElementById('data_2').value = this.value;
+                } else if(this.id === 'data_2') {
+                    document.getElementById('data_1').value = this.value;
+                }
             });
         });
 
@@ -199,12 +247,22 @@
                 const targetId = id.replace('_1', '_2');
                 if(document.getElementById(targetId)) document.getElementById(targetId).value = e.target.value;
             });
+            // Adicionado suporte para mudança em selects (responsável)
+            if(id.includes('responsavel')) {
+                document.getElementById(id).addEventListener('change', (e) => {
+                    const targetId = id.replace('_1', '_2');
+                    if(document.getElementById(targetId)) document.getElementById(targetId).value = e.target.value;
+                });
+            }
         });
 
         function clearForm() {
-            document.querySelectorAll('input, textarea').forEach(el => {
-                if(el.id.includes('responsavel')) el.value = 'SQF - (Inserir nome do SQF)';
-                else {
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                if(el.id.includes('responsavel')) el.value = '';
+                else if(el.id.includes('data')) {
+                    // Mantém sempre a data atual ao limpar
+                    preencherDataAtual();
+                } else {
                     el.value = '';
                     if(el.tagName === 'TEXTAREA') el.style.fontSize = ''; // Reseta o tamanho da fonte ao limpar
                 }
@@ -214,5 +272,3 @@
     </script>
 </body>
 </html>
-
-```
