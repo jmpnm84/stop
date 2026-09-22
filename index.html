@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v4.0.1</title>
+    <title>Trigo - STOP v4.0.2</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -59,6 +59,21 @@
             .actions { display: none !important; }
             .a5-container { border: 7px solid #ffdc00 !important; }
             #bloco1, #bloco2 { display: flex !important; }
+            
+            /* Remove a aparência de select e oculta se nenhum responsável estiver selecionado */
+            .form-select {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background: transparent;
+                pointer-events: none;
+            }
+            .form-select option[value=""] {
+                display: none;
+            }
+            .form-select:invalid, .form-select[value=""] {
+                color: transparent !important;
+            }
         }
     </style>
 </head>
@@ -87,7 +102,7 @@
             </div>
             <div class="field-row">
                 <label class="form-label">Resp.:</label>
-                <select id="responsavel_1" class="form-select">
+                <select id="responsavel_1" class="form-select" required>
                     <option value="">Selecionar Responsável</option>
                     <option value="SQF - Cláudio Seabra">SQF - Cláudio Seabra</option>
                     <option value="SQF - Ricardo Almeida">SQF - Ricardo Almeida</option>
@@ -116,7 +131,7 @@
             </div>
             <div class="field-row">
                 <label class="form-label">Resp.:</label>
-                <select id="responsavel_2" class="form-select">
+                <select id="responsavel_2" class="form-select" required>
                     <option value="">Selecionar Responsável</option>
                     <option value="SQF - Cláudio Seabra">SQF - Cláudio Seabra</option>
                     <option value="SQF - Ricardo Almeida">SQF - Ricardo Almeida</option>
