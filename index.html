@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trigo - STOP v4.0.2</title>
+    <title>Trigo - STOP v4.1.2</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -29,8 +29,8 @@
         .logo-image { height: 42px; max-width: 100%; object-fit: contain; }
 
         .stop-box { border: 2px dashed #333333; padding: 15px; text-align: center; margin: 0 auto 8mm auto; width: 100%; max-width: 9.5cm; height: 5.2cm; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .stop-sign { width: 75px; height: 75px; background-color: #d61c1c; position: relative; margin: 0 auto 10px auto; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); display: flex; justify-content: center; align-items: center; border: 3px solid #ffffff; outline: 2px solid #7f7f7f; }
-        .stop-text { color: #ffffff; font-size: 26px; font-weight: bold; }
+        .stop-sign { width: 75px; height: 75px; background-color: #ffdc00; position: relative; margin: 0 auto 10px auto; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); display: flex; justify-content: center; align-items: center; border: 3px solid #333333; outline: 2px solid #7f7f7f; }
+        .stop-text { color: #000000; font-size: 26px; font-weight: bold; }
         .nao-usar { color: #d61c1c; font-size: 22px; font-weight: bold; margin: 5px 0 0 0; }
 
         .field-row { display: flex; align-items: flex-end; margin-bottom: 5mm; width: 100%; position: relative; }
@@ -46,7 +46,7 @@
         .form-label-block { font-size: 18px; font-weight: bold; color: #000000; margin-bottom: 5px; }
         .form-textarea { width: 100%; border: none; border-bottom: 2px solid #000000; font-size: 24px; font-weight: bold; resize: none; outline: none; background: transparent; text-align: center; height: 45px; display: flex; align-items: center; justify-content: center; }
         .form-textarea-obs { font-size: 16px !important; }
-        .motivo-color { color: #d61c1c; }
+        .motivo-color { color: #000000; }
         .obs-color { color: #000000; }
 
         @media print {
@@ -60,7 +60,6 @@
             .a5-container { border: 7px solid #ffdc00 !important; }
             #bloco1, #bloco2 { display: flex !important; }
             
-            /* Remove a aparência de select e oculta se nenhum responsável estiver selecionado */
             .form-select {
                 appearance: none;
                 -webkit-appearance: none;
@@ -155,7 +154,6 @@
         const DB_NAME = "TrigoStopDB";
         let db;
 
-        // Preencher a data atual automaticamente ao carregar a página
         function preencherDataAtual() {
             const hoje = new Date();
             const dia = String(hoje.getDate()).padStart(2, '0');
@@ -169,10 +167,8 @@
             if (data2) data2.value = dataFormatada;
         }
 
-        // Executa ao carregar
         preencherDataAtual();
 
-        // Sincronização manual do campo data caso o utilizador decida alterar
         document.querySelectorAll('input[id^="data"]').forEach(el => {
             el.addEventListener('input', function(e) {
                 if(this.id === 'data_1') {
@@ -183,7 +179,6 @@
             });
         });
 
-        // Redimensionamento dinâmico da fonte para o campo Motivo (Bloco 1)
         const motivo1 = document.getElementById('motivo_1');
         motivo1.addEventListener('input', function() {
             this.style.fontSize = "24px";
@@ -192,13 +187,11 @@
                 size--;
                 this.style.fontSize = size + "px";
             }
-            // Sincroniza texto e o tamanho exato da fonte para o Bloco 2
             const motivo2 = document.getElementById('motivo_2');
             motivo2.value = this.value;
             motivo2.style.fontSize = this.style.fontSize;
         });
 
-        // Demais textareas comuns (Obs)
         document.querySelectorAll('textarea:not(.form-textarea-obs):not(#motivo_1)').forEach(el => {
             el.addEventListener('input', function() {
                 this.style.fontSize = "24px";
@@ -233,6 +226,9 @@
         const listSugestoes = document.getElementById('suggestions_list_1');
 
         inputRef.addEventListener('input', function() {
+            // Sincronização em tempo real para escrita manual
+            document.getElementById('ref_2').value = this.value;
+
             const query = this.value.trim().toLowerCase();
             listSugestoes.innerHTML = "";
             if (query.length < 1 || !db) { listSugestoes.style.display = "none"; return; }
@@ -256,13 +252,11 @@
 
         document.addEventListener('click', (e) => { if (e.target !== inputRef) listSugestoes.style.display = "none"; });
 
-        // Sincronização dos campos padrão entre Bloco 1 e Bloco 2
         ['pecas_1', 'quantidade_1', 'data_1', 'responsavel_1', 'observacoes_1'].forEach(id => {
             document.getElementById(id).addEventListener('input', (e) => {
                 const targetId = id.replace('_1', '_2');
                 if(document.getElementById(targetId)) document.getElementById(targetId).value = e.target.value;
             });
-            // Adicionado suporte para mudança em selects (responsável)
             if(id.includes('responsavel')) {
                 document.getElementById(id).addEventListener('change', (e) => {
                     const targetId = id.replace('_1', '_2');
@@ -275,11 +269,10 @@
             document.querySelectorAll('input, select, textarea').forEach(el => {
                 if(el.id.includes('responsavel')) el.value = '';
                 else if(el.id.includes('data')) {
-                    // Mantém sempre a data atual ao limpar
                     preencherDataAtual();
                 } else {
                     el.value = '';
-                    if(el.tagName === 'TEXTAREA') el.style.fontSize = ''; // Reseta o tamanho da fonte ao limpar
+                    if(el.tagName === 'TEXTAREA') el.style.fontSize = '';
                 }
             });
             listSugestoes.style.display = 'none';
